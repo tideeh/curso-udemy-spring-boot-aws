@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-CursoUdemySpringBootAwsApplication<curso-udemy-spring-boot-aws>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.example.api.CursoUdemySpringBootAwsApplication",
+            "projectName": "curso-udemy-spring-boot-aws",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
