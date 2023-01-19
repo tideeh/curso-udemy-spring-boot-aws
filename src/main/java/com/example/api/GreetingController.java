@@ -47,6 +47,12 @@ public class GreetingController {
         map.put("name", name);
         map.put("idade", idade);
 
+        Map<String, Object> map2 = new HashMap<>();
+        map2.put("rua", "Santa Rita");
+        map2.put("número", 640);
+
+        map.put("endereço", map2);
+
         return map;
     }
 
