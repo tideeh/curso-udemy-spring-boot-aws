@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.api.controllers;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.api.model.Greeting;
+
 @RestController
-@RequestMapping("/")
+@RequestMapping("/greeting")
 public class GreetingController {
 
     private static final String template = "Hello, %s";
