@@ -1,4 +1,4 @@
-package com.example.api.exceptions.handler;
+package com.example.api.util.exceptions.handler;
 
 import java.util.Date;
 
@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.example.api.exceptions.ExceptionResponse;
-import com.example.api.exceptions.ResourceNotFoundException;
-import com.example.api.exceptions.UnsupportedMathOperationException;
+import com.example.api.util.exceptions.ExceptionResponse;
+import com.example.api.util.exceptions.ResourceNotFoundException;
+import com.example.api.util.exceptions.UnsupportedMathOperationException;
 
 @ControllerAdvice
 @RestController
