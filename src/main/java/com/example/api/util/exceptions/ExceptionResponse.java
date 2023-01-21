@@ -1,4 +1,4 @@
-package com.example.api.exceptions;
+package com.example.api.util.exceptions;
 
 import java.io.Serializable;
 import java.util.Date;

@@ -6,9 +6,11 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.api.exceptions.ResourceNotFoundException;
-import com.example.api.model.Person;
 import com.example.api.repositories.PersonRepository;
+import com.example.api.util.data.vo.v1.PersonVO;
+import com.example.api.util.data.vo.v2.PersonVOV2;
+import com.example.api.util.exceptions.ResourceNotFoundException;
+import com.example.api.util.mapper.MapperVO;
 
 @Service
 public class PersonServices {
@@ -16,51 +18,65 @@ public class PersonServices {
     @Autowired
     PersonRepository repository;
 
+    @Autowired
+    MapperVO mapper;
+
     private Logger logger = Logger.getLogger(PersonServices.class.getName());
 
-    public Person findById(Long id) {
-        
+    public PersonVO findById(Long id) {
         logger.info("Find Person by ID");;
 
-        return repository.findById(id)
-            .orElseThrow(
-                () -> new ResourceNotFoundException("No records found for this ID!")
-            );
-    }
-
-    public List<Person> findAll() {
-
-        logger.info("Find all Persons");
-
-        return repository.findAll();
-    }
-
-    public Person create(Person person) {
-
-        logger.info("Create one person");
-
-        return repository.save(person);
-    }
-
-    public Person update(Person person) {
-
-        logger.info("Update the person");
-
-        var entity = repository.findById(person.getId())
+        var entity = repository.findById(id)
             .orElseThrow(
                 () -> new ResourceNotFoundException("No records found for this ID!")
             );
         
-        entity.setFirstName(person.getFirstName());
-        entity.setLastName(person.getLastName());
-        entity.setAddres(person.getAddres());
-        entity.setGender(person.getGender());
+        return mapper.personToPersonVO(entity);
+    }
 
-        return repository.save(entity);
+    public List<PersonVO> findAll() {
+        logger.info("Find all Persons");
+
+        return mapper.personListToPersonVOList(repository.findAll());
+    }
+
+    public PersonVO create(PersonVO personVO) {
+        logger.info("Create one person");
+
+        var entity = mapper.personVOToPerson(personVO);
+        var vo = mapper.personToPersonVO(repository.save(entity));
+
+        return vo;
+    }
+
+    public PersonVOV2 createV2(PersonVOV2 personVOV2) {
+        logger.info("Create one person - V2");
+
+        var entity = mapper.personVOV2ToPerson(personVOV2);
+        var vo = mapper.personToPersonVOV2(repository.save(entity));
+
+        return vo;
+    }
+
+    public PersonVO update(PersonVO personVO) {
+        logger.info("Update the person");
+
+        var entity = repository.findById(personVO.getId())
+            .orElseThrow(
+                () -> new ResourceNotFoundException("No records found for this ID!")
+            );
+        
+        entity.setFirstName(personVO.getFirstName());
+        entity.setLastName(personVO.getLastName());
+        entity.setAddres(personVO.getAddres());
+        entity.setGender(personVO.getGender());
+
+        var vo = mapper.personToPersonVO(repository.save(entity));
+
+        return vo;
     }
 
     public void delete(Long id) {
-
         logger.info("Delete the person");
 
         var entity = repository.findById(id)
@@ -70,7 +86,7 @@ public class PersonServices {
         
         repository.delete(entity);
     }
-    
+
     /*
     private Person mockPerson(Long i) {
         

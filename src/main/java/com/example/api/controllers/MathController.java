@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.api.exceptions.UnsupportedMathOperationException;
 import com.example.api.util.*;
+import com.example.api.util.exceptions.UnsupportedMathOperationException;
 
 @RestController
 @RequestMapping("/math")
