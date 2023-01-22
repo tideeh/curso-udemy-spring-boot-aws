@@ -1,9 +1,10 @@
 package com.example.api.util.data.vo.v2;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class PersonVOV2 {
+public class PersonVOV2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
