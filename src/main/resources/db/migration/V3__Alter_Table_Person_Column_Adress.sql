@@ -1,0 +1,1 @@
+ALTER TABLE person RENAME COLUMN addres TO address;

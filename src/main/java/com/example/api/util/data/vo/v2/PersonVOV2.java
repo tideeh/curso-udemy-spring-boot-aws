@@ -11,9 +11,9 @@ public class PersonVOV2 implements Serializable {
     private Long id;
     private String firstName;
     private String lastName;
-    private String addres;
     private String gender;
     private Date birthDay;
+    private String address;
 
     public PersonVOV2() {}
 
@@ -41,12 +41,12 @@ public class PersonVOV2 implements Serializable {
         this.lastName = lastName;
     }
 
-    public String getAddres() {
-        return this.addres;
+    public String getAddress() {
+        return this.address;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGender() {
@@ -73,12 +73,12 @@ public class PersonVOV2 implements Serializable {
             return false;
         }
         PersonVOV2 personVOv2 = (PersonVOV2) o;
-        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(addres, personVOv2.addres) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthDay, personVOv2.birthDay);
+        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthDay, personVOv2.birthDay);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, addres, gender, birthDay);
+        return Objects.hash(id, firstName, lastName, address, gender, birthDay);
     }
 
 
