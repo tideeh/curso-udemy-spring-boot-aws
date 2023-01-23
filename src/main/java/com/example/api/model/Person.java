@@ -26,8 +26,8 @@ public class Person implements Serializable{
     @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
 
-    @Column(name = "addres", nullable = false, length = 100)
-    private String addres;
+    @Column(name = "address", nullable = false, length = 100)
+    private String address;
 
     @Column(name = "gender", nullable = false, length = 6)
     private String gender;
@@ -38,13 +38,13 @@ public class Person implements Serializable{
     public Person(Long id, 
                   String firstName, 
                   String lastName, 
-                  String addres, 
+                  String address, 
                   String gender) {
         
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.addres = addres;
+        this.address = address;
         this.gender = gender;
     }
 
@@ -72,12 +72,12 @@ public class Person implements Serializable{
         this.lastName = lastName;
     }
 
-    public String getAddres() {
-        return this.addres;
+    public String getAddress() {
+        return this.address;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGender() {
@@ -97,12 +97,12 @@ public class Person implements Serializable{
             return false;
         }
         Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(addres, person.addres) && Objects.equals(gender, person.gender);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, addres, gender);
+        return Objects.hash(id, firstName, lastName, address, gender);
     }
 
     

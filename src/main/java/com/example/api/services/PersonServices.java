@@ -34,10 +34,27 @@ public class PersonServices {
         return mapper.personToPersonVO(entity);
     }
 
+    public PersonVOV2 findByIdV2(Long id) {
+        logger.info("Find Person by ID - V2");;
+
+        var entity = repository.findById(id)
+            .orElseThrow(
+                () -> new ResourceNotFoundException("No records found for this ID!")
+            );
+        
+        return mapper.personToPersonVOV2(entity);
+    }
+
     public List<PersonVO> findAll() {
         logger.info("Find all Persons");
 
         return mapper.personListToPersonVOList(repository.findAll());
+    }
+
+    public List<PersonVOV2> findAllV2() {
+        logger.info("Find all Persons - V2");
+
+        return mapper.personListToPersonVOV2List(repository.findAll());
     }
 
     public PersonVO create(PersonVO personVO) {
@@ -68,7 +85,7 @@ public class PersonServices {
         
         entity.setFirstName(personVO.getFirstName());
         entity.setLastName(personVO.getLastName());
-        entity.setAddres(personVO.getAddres());
+        entity.setAddress(personVO.getAddres());
         entity.setGender(personVO.getGender());
 
         var vo = mapper.personToPersonVO(repository.save(entity));
