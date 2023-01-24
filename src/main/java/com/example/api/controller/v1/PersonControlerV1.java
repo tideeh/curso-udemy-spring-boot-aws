@@ -18,7 +18,7 @@ import com.example.api.util.MediaType;
 import com.example.api.util.data.vo.v1.PersonVO;
 
 @RestController
-@RequestMapping("/api/v1/person")
+@RequestMapping("/api/person/v1")
 public class PersonControlerV1 {
 
     @Autowired
