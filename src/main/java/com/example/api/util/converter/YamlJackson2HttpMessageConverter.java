@@ -1,4 +1,4 @@
-package com.example.api.util.converters;
+package com.example.api.util.converter;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.json.AbstractJackson2HttpMessageConverter;
