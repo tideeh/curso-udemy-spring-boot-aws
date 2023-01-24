@@ -1,6 +1,7 @@
 package com.example.api.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 import jakarta.persistence.Column;
@@ -31,6 +32,9 @@ public class Person implements Serializable{
 
     @Column(name = "gender", nullable = false, length = 6)
     private String gender;
+
+    @Column(name = "birthday")
+    private Date birthday;
 
     public Person() {
     }
@@ -88,6 +92,13 @@ public class Person implements Serializable{
         this.gender = gender;
     }
 
+    public Date getBirthday() {
+        return this.birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,13 +108,15 @@ public class Person implements Serializable{
             return false;
         }
         Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(birthday, person.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender);
+        return Objects.hash(id, firstName, lastName, address, gender, birthday);
     }
+
+
 
     
 }

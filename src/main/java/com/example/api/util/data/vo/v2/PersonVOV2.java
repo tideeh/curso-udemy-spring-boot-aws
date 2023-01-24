@@ -15,7 +15,7 @@ public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Seria
     private String firstName;
     private String lastName;
     private String gender;
-    private Date birthDay;
+    private Date birthday;
     private String address;
 
     public PersonVOV2() {}
@@ -60,12 +60,12 @@ public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Seria
         this.gender = gender;
     }
 
-    public Date getBirthDay() {
-        return this.birthDay;
+    public Date getBirthday() {
+        return this.birthday;
     }
 
-    public void setBirthDay(Date birthDay) {
-        this.birthDay = birthDay;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 
     @Override
@@ -76,12 +76,12 @@ public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Seria
             return false;
         }
         PersonVOV2 personVOv2 = (PersonVOV2) o;
-        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthDay, personVOv2.birthDay);
+        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthday, personVOv2.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender, birthDay);
+        return Objects.hash(id, firstName, lastName, address, gender, birthday);
     }
 
 
