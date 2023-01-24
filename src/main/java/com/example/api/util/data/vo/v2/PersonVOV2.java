@@ -4,7 +4,10 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 
-public class PersonVOV2 implements Serializable {
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.lang.Nullable;
+
+public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -66,7 +69,7 @@ public class PersonVOV2 implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (o == this)
             return true;
         if (!(o instanceof PersonVOV2)) {

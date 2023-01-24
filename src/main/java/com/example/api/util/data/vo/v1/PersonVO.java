@@ -3,10 +3,13 @@ package com.example.api.util.data.vo.v1;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.lang.Nullable;
+
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({"id", "firstName", "lastName", "gender", "addres",})
-public class PersonVO implements Serializable {
+public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -65,21 +68,20 @@ public class PersonVO implements Serializable {
         this.gender = gender;
     }
 
-
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (o == this)
             return true;
         if (!(o instanceof PersonVO)) {
             return false;
         }
-        PersonVO person = (PersonVO) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(addres, person.addres) && Objects.equals(gender, person.gender);
+        PersonVO personVO = (PersonVO) o;
+        return Objects.equals(id, personVO.id) && Objects.equals(firstName, personVO.firstName) && Objects.equals(lastName, personVO.lastName) && Objects.equals(addres, personVO.addres) && Objects.equals(gender, personVO.gender);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, firstName, lastName, addres, gender);
     }
-    
+
 }
