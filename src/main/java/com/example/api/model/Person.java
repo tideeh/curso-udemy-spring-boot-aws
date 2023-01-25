@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "person")
-public class Person implements Serializable{
+public class Person implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -27,29 +27,15 @@ public class Person implements Serializable{
     @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
 
-    @Column(name = "address", nullable = false, length = 100)
+    @Column(nullable = false, length = 100)
     private String address;
 
-    @Column(name = "gender", nullable = false, length = 6)
+    @Column(nullable = false, length = 6)
     private String gender;
 
-    @Column(name = "birthday")
     private Date birthday;
 
     public Person() {
-    }
-
-    public Person(Long id, 
-                  String firstName, 
-                  String lastName, 
-                  String address, 
-                  String gender) {
-        
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.address = address;
-        this.gender = gender;
     }
 
     public Long getId() {

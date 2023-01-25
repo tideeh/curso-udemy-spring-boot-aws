@@ -5,9 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.api.util.data.vo.v1.PersonVO;
-import com.example.api.util.data.vo.v2.PersonVOV2;
 import com.example.api.model.Person;
+import com.example.api.vo.v1.PersonVO;
+import com.example.api.vo.v2.PersonVOV2;
 
 public class MockPerson {
 
