@@ -1,4 +1,4 @@
-package com.example.api.controller.v1;
+package com.example.api.controller;
 
 import java.util.List;
 
@@ -27,7 +27,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/book/v1")
 @Tag(name = "Book v1", description = "Endpoints for managing Books")
-public class BookControllerV1 {
+public class BookController {
 
     @Autowired
     private BookService service;
@@ -38,7 +38,7 @@ public class BookControllerV1 {
     )
     @Operation(
         summary = "Finds a Book", 
-        description = "Finds a Book", 
+        description = "Finds a Book - v1", 
         tags = {"Book v1"}, 
         responses = {
             @ApiResponse(
@@ -83,7 +83,7 @@ public class BookControllerV1 {
     )
     @Operation(
         summary = "Finds all Books", 
-        description = "Finds all Books", 
+        description = "Finds all Books - v1", 
         tags = {"Book v1"}, 
         responses = {
             @ApiResponse(
@@ -124,7 +124,7 @@ public class BookControllerV1 {
     )
     @Operation(
         summary = "Adds a new Book", 
-        description = "Adds a new Book", 
+        description = "Adds a new Book - v1", 
         tags = {"Book v1"}, 
         responses = {
             @ApiResponse(
@@ -160,7 +160,7 @@ public class BookControllerV1 {
     )
     @Operation(
         summary = "Updates a Book", 
-        description = "Updates a Book", 
+        description = "Updates a Book - v1", 
         tags = {"Book v1"}, 
         responses = {
             @ApiResponse(
@@ -199,7 +199,7 @@ public class BookControllerV1 {
     )
     @Operation(
         summary = "Deletes a Book", 
-        description = "Deletes a Book", 
+        description = "Deletes a Book - v1", 
         tags = {"Book v1"}, 
         responses = {
             @ApiResponse(

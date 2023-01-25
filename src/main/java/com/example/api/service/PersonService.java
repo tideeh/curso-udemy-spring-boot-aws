@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import com.example.api.controller.v1.PersonControllerV1;
-import com.example.api.controller.v2.PersonControllerV2;
+import com.example.api.controller.PersonController;
 import com.example.api.repository.PersonRepository;
 import com.example.api.util.exception.RequiredObjectIsNullException;
 import com.example.api.util.exception.ResourceNotFoundException;
@@ -32,10 +31,10 @@ public class PersonService {
         var entity = repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
-        PersonVO vo = PersonMapper.INSTANCE.personToPersonVO(entity);
+        PersonVO vo = PersonMapper.INSTANCE.personToVO(entity);
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonControllerV1.class).findById(id)).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findById(id)).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -47,10 +46,10 @@ public class PersonService {
         var entity = repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
-        PersonVOV2 vo = PersonMapper.INSTANCE.personToPersonVOV2(entity);
+        PersonVOV2 vo = PersonMapper.INSTANCE.personToVOV2(entity);
         
         // Hateoas
-        Link link = linkTo(methodOn(PersonControllerV2.class).findByIdV2(id)).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findByIdV2(id)).withSelfRel();
         vo.add(link);
         
         return vo;
@@ -59,11 +58,11 @@ public class PersonService {
     public List<PersonVO> findAll() throws Exception {
         logger.info("Find all Persons - V1");
 
-        List<PersonVO> voList = PersonMapper.INSTANCE.personListToPersonVOList(repository.findAll());
+        List<PersonVO> voList = PersonMapper.INSTANCE.personListToVOList(repository.findAll());
 
         // Hateoas
         for (PersonVO vo : voList) {
-            Link link = linkTo(methodOn(PersonControllerV1.class).findById(vo.getId())).withSelfRel();
+            Link link = linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel();
             vo.add(link);
         }
 
@@ -73,11 +72,11 @@ public class PersonService {
     public List<PersonVOV2> findAllV2() throws Exception {
         logger.info("Find all Persons - V2");
 
-        List<PersonVOV2> voList = PersonMapper.INSTANCE.personListToPersonVOV2List(repository.findAll());
+        List<PersonVOV2> voList = PersonMapper.INSTANCE.personListToVOV2List(repository.findAll());
 
         // Hateoas
         for (PersonVOV2 vo : voList) {
-            Link link = linkTo(methodOn(PersonControllerV2.class).findByIdV2(vo.getId())).withSelfRel();
+            Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getKey())).withSelfRel();
             vo.add(link);
         }
 
@@ -90,11 +89,11 @@ public class PersonService {
         if(personVO == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = PersonMapper.INSTANCE.personVOToPerson(personVO);
-        var vo = PersonMapper.INSTANCE.personToPersonVO(repository.save(entity));
+        var entity = PersonMapper.INSTANCE.VOToPerson(personVO);
+        var vo = PersonMapper.INSTANCE.personToVO(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonControllerV1.class).findById(vo.getId())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -106,11 +105,11 @@ public class PersonService {
         if(personVOV2 == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = PersonMapper.INSTANCE.personVOV2ToPerson(personVOV2);
-        var vo = PersonMapper.INSTANCE.personToPersonVOV2(repository.save(entity));
+        var entity = PersonMapper.INSTANCE.VOV2ToPerson(personVOV2);
+        var vo = PersonMapper.INSTANCE.personToVOV2(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonControllerV2.class).findByIdV2(vo.getId())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getKey())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -122,7 +121,7 @@ public class PersonService {
         if(personVO == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = repository.findById(personVO.getId())
+        var entity = repository.findById(personVO.getKey())
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
         entity.setFirstName(personVO.getFirstName());
@@ -130,10 +129,10 @@ public class PersonService {
         entity.setAddress(personVO.getAddres());
         entity.setGender(personVO.getGender());
 
-        var vo = PersonMapper.INSTANCE.personToPersonVO(repository.save(entity));
+        var vo = PersonMapper.INSTANCE.personToVO(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonControllerV1.class).findById(vo.getId())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -145,7 +144,7 @@ public class PersonService {
         if(personVOV2 == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = repository.findById(personVOV2.getId())
+        var entity = repository.findById(personVOV2.getKey())
             .orElseThrow(
                 () -> new ResourceNotFoundException("No records found for this ID!")
             );
@@ -155,10 +154,10 @@ public class PersonService {
         entity.setAddress(personVOV2.getAddress());
         entity.setGender(personVOV2.getGender());
 
-        var vo = PersonMapper.INSTANCE.personToPersonVOV2(repository.save(entity));
+        var vo = PersonMapper.INSTANCE.personToVOV2(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonControllerV2.class).findByIdV2(vo.getId())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getKey())).withSelfRel();
         vo.add(link);
 
         return vo;

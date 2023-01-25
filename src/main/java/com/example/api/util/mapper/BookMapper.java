@@ -14,12 +14,17 @@ public interface BookMapper {
 
     BookMapper INSTANCE = Mappers.getMapper( BookMapper.class );
 
+    @Mapping(source = "id", target = "key")
     @Mapping(target = "add", ignore = true)
-    BookVO bookToBookVO(Book o);
+    BookVO bookToVO(Book o);
 
-    Book bookVOToBook(BookVO o);
+    @Mapping(source = "key", target = "id")
+    Book VOToBook(BookVO o);
 
-    List<BookVO> bookListToBookVOList(List<Book> o);
-    List<Book> bookVOListToBookList(List<BookVO> o);
+    @Mapping(source = "id", target = "key")
+    List<BookVO> bookListToVOList(List<Book> o);
+
+    @Mapping(source = "key", target = "id")
+    List<Book> VOListToBookList(List<BookVO> o);
     
 }
