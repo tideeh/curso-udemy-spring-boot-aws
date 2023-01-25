@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
-import com.example.api.controller.v1.BookControllerV1;
+import com.example.api.controller.BookController;
 import com.example.api.repository.BookRepository;
 import com.example.api.util.exception.RequiredObjectIsNullException;
 import com.example.api.util.exception.ResourceNotFoundException;
@@ -31,10 +31,10 @@ public class BookService {
         var entity = repository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
-        BookVO vo = BookMapper.INSTANCE.bookToBookVO(entity);
+        BookVO vo = BookMapper.INSTANCE.bookToVO(entity);
 
         // Hateoas
-        Link link = linkTo(methodOn(BookControllerV1.class).findById(id)).withSelfRel();
+        Link link = linkTo(methodOn(BookController.class).findById(id)).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -43,11 +43,11 @@ public class BookService {
     public List<BookVO> findAll() throws Exception {
         logger.info("Find all Books - V1");
 
-        List<BookVO> voList = BookMapper.INSTANCE.bookListToBookVOList(repository.findAll());
+        List<BookVO> voList = BookMapper.INSTANCE.bookListToVOList(repository.findAll());
 
         // Hateoas
         for (BookVO vo : voList) {
-            Link link = linkTo(methodOn(BookControllerV1.class).findById(vo.getId())).withSelfRel();
+            Link link = linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel();
             vo.add(link);
         }
 
@@ -60,11 +60,11 @@ public class BookService {
         if(bookVO == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = BookMapper.INSTANCE.bookVOToBook(bookVO);
-        var vo = BookMapper.INSTANCE.bookToBookVO(repository.save(entity));
+        var entity = BookMapper.INSTANCE.VOToBook(bookVO);
+        var vo = BookMapper.INSTANCE.bookToVO(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(BookControllerV1.class).findById(vo.getId())).withSelfRel();
+        Link link = linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -76,7 +76,7 @@ public class BookService {
         if(bookVO == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = repository.findById(bookVO.getId())
+        var entity = repository.findById(bookVO.getKey())
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
         entity.setAuthor(bookVO.getAuthor());
@@ -84,10 +84,10 @@ public class BookService {
         entity.setPrice(bookVO.getPrice());
         entity.setTitle(bookVO.getTitle());
 
-        var vo = BookMapper.INSTANCE.bookToBookVO(repository.save(entity));
+        var vo = BookMapper.INSTANCE.bookToVO(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(BookControllerV1.class).findById(vo.getId())).withSelfRel();
+        Link link = linkTo(methodOn(BookController.class).findById(vo.getKey())).withSelfRel();
         vo.add(link);
 
         return vo;

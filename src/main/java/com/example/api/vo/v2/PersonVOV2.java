@@ -7,11 +7,17 @@ import java.util.Objects;
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.Nullable;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
+@JsonPropertyOrder({"id", "firstName", "lastName", "gender", "birthday", "addres"})
 public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private Long id;
+    @JsonProperty("id")
+    private Long key;
+
     private String firstName;
     private String lastName;
     private String gender;
@@ -20,12 +26,12 @@ public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Seria
 
     public PersonVOV2() {}
 
-    public Long getId() {
-        return this.id;
+    public Long getKey() {
+        return this.key;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setKey(Long key) {
+        this.key = key;
     }
 
     public String getFirstName() {
@@ -76,12 +82,12 @@ public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Seria
             return false;
         }
         PersonVOV2 personVOv2 = (PersonVOV2) o;
-        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthday, personVOv2.birthday);
+        return Objects.equals(key, personVOv2.key) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthday, personVOv2.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender, birthday);
+        return Objects.hash(key, firstName, lastName, address, gender, birthday);
     }
 
 

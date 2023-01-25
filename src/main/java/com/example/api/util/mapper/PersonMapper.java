@@ -15,24 +15,33 @@ public interface PersonMapper {
 
     PersonMapper INSTANCE = Mappers.getMapper( PersonMapper.class );
 
-    @Mapping(source = "addres", target = "address")
-    @Mapping(target = "birthday", ignore = true)
-    Person personVOToPerson(PersonVO o);
-
     @Mapping(source = "address", target = "addres")
+    @Mapping(source = "id", target = "key")
     @Mapping(target = "add", ignore = true)
-    PersonVO personToPersonVO(Person o);
+    PersonVO personToVO(Person o);
 
-    List<PersonVO> personListToPersonVOList(List<Person> o);
-    List<Person> personVOListToPersonList(List<PersonVO> o);
+    @Mapping(source = "addres", target = "address")
+    @Mapping(source = "key", target = "id")
+    @Mapping(target = "birthday", ignore = true)
+    Person VOToPerson(PersonVO o);
+
+    @Mapping(source = "id", target = "key")
+    List<PersonVO> personListToVOList(List<Person> o);
+
+    @Mapping(source = "key", target = "id")
+    List<Person> VOListToPersonList(List<PersonVO> o);
 
     // v2
-    Person personVOV2ToPerson(PersonVOV2 o);
-
+    @Mapping(source = "id", target = "key")
     @Mapping(target = "add", ignore = true)
-    PersonVOV2 personToPersonVOV2(Person o);
+    PersonVOV2 personToVOV2(Person o);
 
-    List<PersonVOV2> personListToPersonVOV2List(List<Person> o);
-    List<Person> personVOV2ListToPersonList(List<PersonVOV2> o);
+    @Mapping(source = "key", target = "id")
+    Person VOV2ToPerson(PersonVOV2 o);
 
+    @Mapping(source = "id", target = "key")
+    List<PersonVOV2> personListToVOV2List(List<Person> o);
+
+    @Mapping(source = "key", target = "id")
+    List<Person> VOV2ListToPersonList(List<PersonVOV2> o);
 }
