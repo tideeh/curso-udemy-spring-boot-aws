@@ -17,9 +17,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.example.api.util.data.vo.v1.PersonVO;
-import com.example.api.util.data.vo.v2.PersonVOV2;
 import com.example.api.util.exception.RequiredObjectIsNullException;
+import com.example.api.vo.v1.PersonVO;
+import com.example.api.vo.v2.PersonVOV2;
 import com.example.api.model.Person;
 import com.example.api.repository.PersonRepository;
 import com.example.api.service.PersonService;

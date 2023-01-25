@@ -1,32 +1,24 @@
-package com.example.api.util.data.vo.v1;
+package com.example.api.vo.v2;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.Nullable;
 
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-
-@JsonPropertyOrder({"id", "firstName", "lastName", "gender", "addres",})
-public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
+public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
-
-    //@JsonProperty("first_name")
     private String firstName;
-
-    //@JsonProperty("last_name")
     private String lastName;
-
-    private String addres;
-
-    //@JsonIgnore
     private String gender;
+    private Date birthday;
+    private String address;
 
-    public PersonVO() {}
+    public PersonVOV2() {}
 
     public Long getId() {
         return this.id;
@@ -52,12 +44,12 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
         this.lastName = lastName;
     }
 
-    public String getAddres() {
-        return this.addres;
+    public String getAddress() {
+        return this.address;
     }
 
-    public void setAddres(String addres) {
-        this.addres = addres;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getGender() {
@@ -68,20 +60,30 @@ public class PersonVO extends RepresentationModel<PersonVO> implements Serializa
         this.gender = gender;
     }
 
+    public Date getBirthday() {
+        return this.birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
     @Override
     public boolean equals(@Nullable Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof PersonVO)) {
+        if (!(o instanceof PersonVOV2)) {
             return false;
         }
-        PersonVO personVO = (PersonVO) o;
-        return Objects.equals(id, personVO.id) && Objects.equals(firstName, personVO.firstName) && Objects.equals(lastName, personVO.lastName) && Objects.equals(addres, personVO.addres) && Objects.equals(gender, personVO.gender);
+        PersonVOV2 personVOv2 = (PersonVOV2) o;
+        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthday, personVOv2.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, addres, gender);
+        return Objects.hash(id, firstName, lastName, address, gender, birthday);
     }
 
+
+    
 }

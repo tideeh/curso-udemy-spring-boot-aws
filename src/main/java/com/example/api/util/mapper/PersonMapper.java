@@ -7,13 +7,13 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.example.api.model.Person;
-import com.example.api.util.data.vo.v1.PersonVO;
-import com.example.api.util.data.vo.v2.PersonVOV2;
+import com.example.api.vo.v1.PersonVO;
+import com.example.api.vo.v2.PersonVOV2;
 
 @Mapper(componentModel = "spring")
-public interface MapperVO {
+public interface PersonMapper {
 
-    MapperVO INSTANCE = Mappers.getMapper( MapperVO.class );
+    PersonMapper INSTANCE = Mappers.getMapper( PersonMapper.class );
 
     @Mapping(source = "addres", target = "address")
     @Mapping(target = "birthday", ignore = true)
@@ -34,4 +34,5 @@ public interface MapperVO {
 
     List<PersonVOV2> personListToPersonVOV2List(List<Person> o);
     List<Person> personVOV2ListToPersonList(List<PersonVOV2> o);
+
 }

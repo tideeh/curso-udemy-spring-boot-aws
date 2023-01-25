@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import com.example.api.util.data.vo.v1.PersonVO;
-import com.example.api.util.mapper.MapperVO;
+import com.example.api.util.mapper.PersonMapper;
+import com.example.api.vo.v1.PersonVO;
 import com.example.api.model.Person;
 import com.example.api.unittests.mapper.mocks.MockPerson;
 
@@ -21,7 +21,7 @@ import com.example.api.unittests.mapper.mocks.MockPerson;
 public class MapperPersonVOTest {
 
     @Autowired
-    MapperVO mapper;
+    PersonMapper mapper;
     
     MockPerson inputObject;
 
