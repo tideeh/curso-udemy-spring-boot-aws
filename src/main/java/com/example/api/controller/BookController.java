@@ -26,7 +26,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api/book/v1")
-@Tag(name = "Book v1", description = "Endpoints for managing Books")
+@Tag(name = "Book", description = "Endpoints for managing Books")
 public class BookController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class BookController {
     @Operation(
         summary = "Finds a Book", 
         description = "Finds a Book - v1", 
-        tags = {"Book v1"}, 
+        tags = {"Book"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 
@@ -84,7 +84,7 @@ public class BookController {
     @Operation(
         summary = "Finds all Books", 
         description = "Finds all Books - v1", 
-        tags = {"Book v1"}, 
+        tags = {"Book"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 
@@ -125,7 +125,7 @@ public class BookController {
     @Operation(
         summary = "Adds a new Book", 
         description = "Adds a new Book - v1", 
-        tags = {"Book v1"}, 
+        tags = {"Book"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 
@@ -161,7 +161,7 @@ public class BookController {
     @Operation(
         summary = "Updates a Book", 
         description = "Updates a Book - v1", 
-        tags = {"Book v1"}, 
+        tags = {"Book"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 
@@ -200,7 +200,7 @@ public class BookController {
     @Operation(
         summary = "Deletes a Book", 
         description = "Deletes a Book - v1", 
-        tags = {"Book v1"}, 
+        tags = {"Book"}, 
         responses = {
             @ApiResponse(
                 description = "No content", 

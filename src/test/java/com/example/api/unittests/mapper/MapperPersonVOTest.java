@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.api.util.mapper.PersonMapper;
 import com.example.api.vo.v1.PersonVO;
@@ -20,7 +19,6 @@ import com.example.api.mocks.MockPerson;
 import com.example.api.model.Person;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@SpringBootTest
 public class MapperPersonVOTest {
 
     @Autowired
@@ -31,6 +29,7 @@ public class MapperPersonVOTest {
     @BeforeEach
     public void setUp() {
         inputObject = new MockPerson();
+        mapper = PersonMapper.INSTANCE;
     }
 
     @Test

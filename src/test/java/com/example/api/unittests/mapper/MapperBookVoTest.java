@@ -11,15 +11,12 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
 import com.example.api.util.mapper.BookMapper;
 import com.example.api.vo.v1.BookVO;
 import com.example.api.mocks.MockBook;
 import com.example.api.model.Book;
 
 @TestInstance(Lifecycle.PER_CLASS)
-@SpringBootTest
 public class MapperBookVoTest {
 
     @Autowired
@@ -30,6 +27,7 @@ public class MapperBookVoTest {
     @BeforeEach
     public void setUp() {
         inputObject = new MockBook();
+        mapper = BookMapper.INSTANCE;
     }
 
     @Test

@@ -17,7 +17,6 @@ public interface PersonMapper {
 
     @Mapping(source = "address", target = "addres")
     @Mapping(source = "id", target = "key")
-    @Mapping(target = "add", ignore = true)
     PersonVO personToVO(Person o);
 
     @Mapping(source = "addres", target = "address")
@@ -25,23 +24,18 @@ public interface PersonMapper {
     @Mapping(target = "birthday", ignore = true)
     Person VOToPerson(PersonVO o);
 
-    @Mapping(source = "id", target = "key")
     List<PersonVO> personListToVOList(List<Person> o);
 
-    @Mapping(source = "key", target = "id")
     List<Person> VOListToPersonList(List<PersonVO> o);
 
     // v2
     @Mapping(source = "id", target = "key")
-    @Mapping(target = "add", ignore = true)
     PersonVOV2 personToVOV2(Person o);
 
     @Mapping(source = "key", target = "id")
     Person VOV2ToPerson(PersonVOV2 o);
 
-    @Mapping(source = "id", target = "key")
     List<PersonVOV2> personListToVOV2List(List<Person> o);
 
-    @Mapping(source = "key", target = "id")
     List<Person> VOV2ListToPersonList(List<PersonVOV2> o);
 }
