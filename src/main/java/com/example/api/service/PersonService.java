@@ -11,6 +11,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import com.example.api.controller.PersonController;
 import com.example.api.repository.PersonRepository;
+import com.example.api.util.exception.InvalidObjectPropertyException;
 import com.example.api.util.exception.RequiredObjectIsNullException;
 import com.example.api.util.exception.ResourceNotFoundException;
 import com.example.api.util.mapper.PersonMapper;
@@ -62,7 +63,7 @@ public class PersonService {
 
         // Hateoas
         for (PersonVO vo : voList) {
-            Link link = linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel();
+            Link link = linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel();
             vo.add(link);
         }
 
@@ -76,7 +77,7 @@ public class PersonService {
 
         // Hateoas
         for (PersonVOV2 vo : voList) {
-            Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getKey())).withSelfRel();
+            Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getId())).withSelfRel();
             vo.add(link);
         }
 
@@ -88,12 +89,15 @@ public class PersonService {
 
         if(personVO == null)
             throw new RequiredObjectIsNullException();
+        
+        if(personVO.getGender().length() > 6)
+            throw new InvalidObjectPropertyException("Property <gender> length over max");
 
         var entity = PersonMapper.INSTANCE.VOToPerson(personVO);
         var vo = PersonMapper.INSTANCE.personToVO(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -109,7 +113,7 @@ public class PersonService {
         var vo = PersonMapper.INSTANCE.personToVOV2(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getKey())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getId())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -121,7 +125,7 @@ public class PersonService {
         if(personVO == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = repository.findById(personVO.getKey())
+        var entity = repository.findById(personVO.getId())
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
         entity.setFirstName(personVO.getFirstName());
@@ -132,7 +136,7 @@ public class PersonService {
         var vo = PersonMapper.INSTANCE.personToVO(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonController.class).findById(vo.getKey())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel();
         vo.add(link);
 
         return vo;
@@ -144,7 +148,7 @@ public class PersonService {
         if(personVOV2 == null)
             throw new RequiredObjectIsNullException();
 
-        var entity = repository.findById(personVOV2.getKey())
+        var entity = repository.findById(personVOV2.getId())
             .orElseThrow(
                 () -> new ResourceNotFoundException("No records found for this ID!")
             );
@@ -157,7 +161,7 @@ public class PersonService {
         var vo = PersonMapper.INSTANCE.personToVOV2(repository.save(entity));
 
         // Hateoas
-        Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getKey())).withSelfRel();
+        Link link = linkTo(methodOn(PersonController.class).findByIdV2(vo.getId())).withSelfRel();
         vo.add(link);
 
         return vo;

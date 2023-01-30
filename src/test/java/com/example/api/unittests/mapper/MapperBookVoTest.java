@@ -33,7 +33,7 @@ public class MapperBookVoTest {
     @Test
     public void bookToVOTest() throws ParseException {
         BookVO output = mapper.bookToVO(inputObject.mockEntity());
-        assertEquals(Long.valueOf(0L), output.getKey());
+        assertEquals(Long.valueOf(0L), output.getId());
         assertEquals("Author Test0", output.getAuthor());
         assertTrue(output.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900")));
         assertEquals(100.00, output.getPrice());
@@ -55,7 +55,7 @@ public class MapperBookVoTest {
         List<BookVO> outputList = mapper.bookListToVOList(inputObject.mockEntityList());
         BookVO outputZero = outputList.get(0);
         
-        assertEquals(Long.valueOf(0L), outputZero.getKey());
+        assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("Author Test0", outputZero.getAuthor());
         assertTrue(outputZero.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1900")));
         assertEquals(100.00, outputZero.getPrice());
@@ -63,7 +63,7 @@ public class MapperBookVoTest {
         
         BookVO outputSeven = outputList.get(7);
         
-        assertEquals(Long.valueOf(7L), outputSeven.getKey());
+        assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("Author Test7", outputSeven.getAuthor());
         assertTrue(outputSeven.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1907")));
         assertEquals(107.00, outputSeven.getPrice());
@@ -71,7 +71,7 @@ public class MapperBookVoTest {
         
         BookVO outputTwelve = outputList.get(12);
         
-        assertEquals(Long.valueOf(12L), outputTwelve.getKey());
+        assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("Author Test12", outputTwelve.getAuthor());
         assertTrue(outputTwelve.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1912")));
         assertEquals(112.00, outputTwelve.getPrice());

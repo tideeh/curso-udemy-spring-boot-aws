@@ -1,28 +1,18 @@
-package com.example.api.vo.v1;
+package com.example.api.integrationtests.vo;
 
 import java.io.Serializable;
 import java.util.Objects;
 
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.Nullable;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"id", "firstName", "lastName", "gender", "addres"})
-public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
+public class PersonVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private Long id;
-
-    //@JsonProperty("first_name")
     private String firstName;
-
-    //@JsonProperty("last_name")
     private String lastName;
-
     private String addres;
-
-    //@JsonIgnore
     private String gender;
 
     public PersonVO() {}

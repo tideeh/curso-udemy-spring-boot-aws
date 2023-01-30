@@ -14,7 +14,7 @@ public class OpenApiConfig {
     OpenAPI customOpenAPI() {
         return new OpenAPI()
             .info(new Info()
-                .title("RESTful API with Java and Spring Boot")
+                .title("RESTful API with Java 19 and Spring Boot 3.0.2")
                 .version("v1")
                 .description("Curso Udemy Spring Boot AWS")
                 .termsOfService("https://google.com")

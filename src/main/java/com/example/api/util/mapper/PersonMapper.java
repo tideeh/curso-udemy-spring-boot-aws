@@ -16,26 +16,19 @@ public interface PersonMapper {
     PersonMapper INSTANCE = Mappers.getMapper( PersonMapper.class );
 
     @Mapping(source = "address", target = "addres")
-    @Mapping(source = "id", target = "key")
     PersonVO personToVO(Person o);
 
     @Mapping(source = "addres", target = "address")
-    @Mapping(source = "key", target = "id")
     @Mapping(target = "birthday", ignore = true)
     Person VOToPerson(PersonVO o);
 
     List<PersonVO> personListToVOList(List<Person> o);
-
     List<Person> VOListToPersonList(List<PersonVO> o);
 
     // v2
-    @Mapping(source = "id", target = "key")
     PersonVOV2 personToVOV2(Person o);
-
-    @Mapping(source = "key", target = "id")
     Person VOV2ToPerson(PersonVOV2 o);
 
     List<PersonVOV2> personListToVOV2List(List<Person> o);
-
     List<Person> VOV2ListToPersonList(List<PersonVOV2> o);
 }
