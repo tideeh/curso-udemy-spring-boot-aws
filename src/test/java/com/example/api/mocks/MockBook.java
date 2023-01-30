@@ -33,7 +33,7 @@ public class MockBook {
     public BookVO mockVO(Integer number) throws ParseException {
         BookVO vo = new BookVO();
 
-        vo.setKey(number.longValue());
+        vo.setId(number.longValue());
         vo.setAuthor("Author Test" + number);
         vo.setLaunchDate(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/"+(1900+number)));
         vo.setPrice(100D + number);

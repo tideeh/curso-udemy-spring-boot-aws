@@ -25,6 +25,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+//@CrossOrigin
 @RestController
 @RequestMapping("/api/person")
 @Tag(name = "People", description = "Endpoints for managing People")
@@ -75,6 +76,7 @@ public class PersonController {
             ),
         }
     )
+    //@CrossOrigin(origins = {"http://localhost:8080"})
     public PersonVO findById(@PathVariable(value = "id") Long id) throws Exception {
         return service.findById(id);
     }
@@ -151,6 +153,7 @@ public class PersonController {
             ),
         }
     )
+    //@CrossOrigin(origins = {"http://localhost:8080", "http://google.com"})
     public PersonVO create(@RequestBody PersonVO person) throws Exception {
         return service.create(person);
     }
