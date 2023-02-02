@@ -6,7 +6,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
 import com.example.api.model.Book;
-import com.example.api.vo.v1.BookVO;
+import com.example.api.util.vo.v1.BookVO;
 
 @Mapper(componentModel = "spring")
 public interface BookMapper {

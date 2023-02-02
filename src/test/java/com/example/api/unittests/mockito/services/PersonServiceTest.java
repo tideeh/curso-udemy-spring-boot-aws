@@ -3,7 +3,7 @@ package com.example.api.unittests.mockito.services;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,12 +18,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.api.util.exception.RequiredObjectIsNullException;
-import com.example.api.vo.v1.PersonVO;
-import com.example.api.vo.v2.PersonVOV2;
-import com.example.api.mocks.MockPerson;
+import com.example.api.util.vo.v1.PersonVO;
+import com.example.api.util.vo.v2.PersonVOV2;
 import com.example.api.model.Person;
 import com.example.api.repository.PersonRepository;
 import com.example.api.service.PersonService;
+import com.example.api.unittests.util.mock.MockPerson;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -61,26 +61,6 @@ class PersonServiceTest {
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
 	}
-
-	@Test
-	void testFindByIdV2() throws Exception {
-		Person entity = input.mockEntityV2(1); 
-		entity.setId(1L);
-		
-		when(repository.findById(1L)).thenReturn(Optional.of(entity));
-		
-		var result = service.findByIdV2(1L);
-		assertNotNull(result);
-		assertNotNull(result.getId());
-		assertNotNull(result.getLinks());
-		
-		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
-		assertEquals("Address Test1", result.getAddress());
-		assertEquals("First Name Test1", result.getFirstName());
-		assertEquals("Last Name Test1", result.getLastName());
-		assertEquals("Female", result.getGender());
-		assertTrue(result.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2001")));
-	}
 	
 	@Test
 	void testCreate() throws Exception {
@@ -107,33 +87,6 @@ class PersonServiceTest {
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
 	}
-
-	@Test
-	void testCreateV2() throws Exception {
-		Person entity = input.mockEntityV2(1); 
-		entity.setId(1L);
-		
-		Person persisted = entity;
-		persisted.setId(1L);
-		
-		PersonVOV2 vo = input.mockVOV2(1);
-		vo.setId(1L);
-		
-		when(repository.save(entity)).thenReturn(persisted);
-		
-		var result = service.createV2(vo);
-		
-		assertNotNull(result);
-		assertNotNull(result.getId());
-		assertNotNull(result.getLinks());
-		
-		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
-		assertEquals("Address Test1", result.getAddress());
-		assertEquals("First Name Test1", result.getFirstName());
-		assertEquals("Last Name Test1", result.getLastName());
-		assertEquals("Female", result.getGender());
-		assertTrue(result.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2001")));
-	}
 	
 	@Test
 	void testCreateWithNullPerson() {
@@ -146,19 +99,6 @@ class PersonServiceTest {
 		
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
-
-	@Test
-	void testCreateWithNullPersonV2() {
-		Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
-			service.createV2(null);
-		});
-		
-		String expectedMessage = "It is not allowed to persist a null object!";
-		String actualMessage = exception.getMessage();
-		
-		assertTrue(actualMessage.contains(expectedMessage));
-	}
-
 
 	@Test
 	void testUpdate() throws Exception {
@@ -188,34 +128,6 @@ class PersonServiceTest {
 	}
 	
 	@Test
-	void testUpdateV2() throws Exception {
-		Person entity = input.mockEntityV2(1); 
-		
-		Person persisted = entity;
-		persisted.setId(1L);
-		
-		PersonVOV2 vo = input.mockVOV2(1);
-		vo.setId(1L);
-		
-
-		when(repository.findById(1L)).thenReturn(Optional.of(entity));
-		when(repository.save(entity)).thenReturn(persisted);
-		
-		var result = service.updateV2(vo);
-		
-		assertNotNull(result);
-		assertNotNull(result.getId());
-		assertNotNull(result.getLinks());
-		
-		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
-		assertEquals("Address Test1", result.getAddress());
-		assertEquals("First Name Test1", result.getFirstName());
-		assertEquals("Last Name Test1", result.getLastName());
-		assertEquals("Female", result.getGender());
-		assertTrue(result.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2001")));
-	}
-	
-	@Test
 	void testUpdateWithNullPerson() {
 		Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
 			service.update(null);
@@ -227,18 +139,6 @@ class PersonServiceTest {
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
 
-	@Test
-	void testUpdateWithNullPersonV2() {
-		Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
-			service.updateV2(null);
-		});
-		
-		String expectedMessage = "It is not allowed to persist a null object!";
-		String actualMessage = exception.getMessage();
-		
-		assertTrue(actualMessage.contains(expectedMessage));
-	}
-	
 	@Test
 	void testDelete() {
 		Person entity = input.mockEntity(1); 
@@ -299,6 +199,105 @@ class PersonServiceTest {
 	}
 
 	@Test
+	void testFindByIdV2() throws Exception {
+		Person entity = input.mockEntityV2(1); 
+		entity.setId(1L);
+		
+		when(repository.findById(1L)).thenReturn(Optional.of(entity));
+		
+		var result = service.findByIdV2(1L);
+		assertNotNull(result);
+		assertNotNull(result.getId());
+		assertNotNull(result.getLinks());
+		
+		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
+		assertEquals("Address Test1", result.getAddress());
+		assertEquals("First Name Test1", result.getFirstName());
+		assertEquals("Last Name Test1", result.getLastName());
+		assertEquals("Female", result.getGender());
+		assertTrue(result.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+	}
+	
+	@Test
+	void testCreateV2() throws Exception {
+		Person entity = input.mockEntityV2(1); 
+		entity.setId(1L);
+		
+		Person persisted = entity;
+		persisted.setId(1L);
+		
+		PersonVOV2 vo = input.mockVOV2(1);
+		vo.setId(1L);
+		
+		when(repository.save(entity)).thenReturn(persisted);
+		
+		var result = service.createV2(vo);
+		
+		assertNotNull(result);
+		assertNotNull(result.getId());
+		assertNotNull(result.getLinks());
+		
+		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
+		assertEquals("Address Test1", result.getAddress());
+		assertEquals("First Name Test1", result.getFirstName());
+		assertEquals("Last Name Test1", result.getLastName());
+		assertEquals("Female", result.getGender());
+		assertTrue(result.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+	}
+	
+	@Test
+	void testCreateWithNullPersonV2() {
+		Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+			service.createV2(null);
+		});
+		
+		String expectedMessage = "It is not allowed to persist a null object!";
+		String actualMessage = exception.getMessage();
+		
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
+	
+	@Test
+	void testUpdateV2() throws Exception {
+		Person entity = input.mockEntityV2(1); 
+		
+		Person persisted = entity;
+		persisted.setId(1L);
+		
+		PersonVOV2 vo = input.mockVOV2(1);
+		vo.setId(1L);
+		
+
+		when(repository.findById(1L)).thenReturn(Optional.of(entity));
+		when(repository.save(entity)).thenReturn(persisted);
+		
+		var result = service.updateV2(vo);
+		
+		assertNotNull(result);
+		assertNotNull(result.getId());
+		assertNotNull(result.getLinks());
+		
+		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
+		assertEquals("Address Test1", result.getAddress());
+		assertEquals("First Name Test1", result.getFirstName());
+		assertEquals("Last Name Test1", result.getLastName());
+		assertEquals("Female", result.getGender());
+		assertTrue(result.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+	}
+	
+	@Test
+	void testUpdateWithNullPersonV2() {
+		Exception exception = assertThrows(RequiredObjectIsNullException.class, () -> {
+			service.updateV2(null);
+		});
+		
+		String expectedMessage = "It is not allowed to persist a null object!";
+		String actualMessage = exception.getMessage();
+		
+		assertTrue(actualMessage.contains(expectedMessage));
+	}
+	
+	@Test
 	void testFindAllV2() throws Exception {
 		List<Person> list = input.mockEntityListV2(); 
 		
@@ -320,7 +319,7 @@ class PersonServiceTest {
 		assertEquals("First Name Test1", personOne.getFirstName());
 		assertEquals("Last Name Test1", personOne.getLastName());
 		assertEquals("Female", personOne.getGender());
-		assertTrue(personOne.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2001")));
+		assertTrue(personOne.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
 		
 		var personFour = people.get(4);
 		
@@ -333,7 +332,7 @@ class PersonServiceTest {
 		assertEquals("First Name Test4", personFour.getFirstName());
 		assertEquals("Last Name Test4", personFour.getLastName());
 		assertEquals("Male", personFour.getGender());
-		assertTrue(personFour.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2004")));
+		assertTrue(personFour.getBirthday().isEqual(LocalDate.of(2004, 01, 25)));
 		
 		var personSeven = people.get(7);
 		
@@ -346,8 +345,7 @@ class PersonServiceTest {
 		assertEquals("First Name Test7", personSeven.getFirstName());
 		assertEquals("Last Name Test7", personSeven.getLastName());
 		assertEquals("Female", personSeven.getGender());
-		assertTrue(personSeven.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2007")));
-
+		assertTrue(personSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
 	}
 
 }

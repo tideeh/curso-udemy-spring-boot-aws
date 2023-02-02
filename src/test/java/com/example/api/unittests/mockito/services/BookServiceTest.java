@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,11 +19,11 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.example.api.util.exception.RequiredObjectIsNullException;
-import com.example.api.vo.v1.BookVO;
-import com.example.api.mocks.MockBook;
+import com.example.api.util.vo.v1.BookVO;
 import com.example.api.model.Book;
 import com.example.api.repository.BookRepository;
 import com.example.api.service.BookService;
+import com.example.api.unittests.util.mock.MockBook;
 
 @TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
@@ -57,7 +57,7 @@ class BookServiceTest {
 		
 		assertTrue(result.toString().contains("links: [</api/book/v1/1>;rel=\"self\"]"));
 		assertEquals("Author Test1", result.getAuthor());
-		assertTrue(result.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1901")));
+		assertTrue(result.getLaunchDate().isEqual(LocalDate.of(1901, 01, 01)));
 		assertEquals(101.00, result.getPrice());
 		assertEquals("Title Test1", result.getTitle());
 	}
@@ -83,7 +83,7 @@ class BookServiceTest {
 		
 		assertTrue(result.toString().contains("links: [</api/book/v1/1>;rel=\"self\"]"));
 		assertEquals("Author Test1", result.getAuthor());
-		assertTrue(result.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1901")));
+		assertTrue(result.getLaunchDate().isEqual(LocalDate.of(1901, 01, 01)));
 		assertEquals(101.00, result.getPrice());
 		assertEquals("Title Test1", result.getTitle());
 	}
@@ -122,7 +122,7 @@ class BookServiceTest {
 		
 		assertTrue(result.toString().contains("links: [</api/book/v1/1>;rel=\"self\"]"));
 		assertEquals("Author Test1", result.getAuthor());
-		assertTrue(result.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1901")));
+		assertTrue(result.getLaunchDate().isEqual(LocalDate.of(1901, 01, 01)));
 		assertEquals(101.00, result.getPrice());
 		assertEquals("Title Test1", result.getTitle());
 	}
@@ -168,7 +168,7 @@ class BookServiceTest {
 		
 		assertTrue(bookOne.toString().contains("links: [</api/book/v1/1>;rel=\"self\"]"));
 		assertEquals("Author Test1", bookOne.getAuthor());
-		assertTrue(bookOne.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1901")));
+		assertTrue(bookOne.getLaunchDate().isEqual(LocalDate.of(1901, 01, 01)));
 		assertEquals(101.00, bookOne.getPrice());
 		assertEquals("Title Test1", bookOne.getTitle());
 		
@@ -180,7 +180,7 @@ class BookServiceTest {
 		
 		assertTrue(bookFour.toString().contains("links: [</api/book/v1/4>;rel=\"self\"]"));
 		assertEquals("Author Test4", bookFour.getAuthor());
-		assertTrue(bookFour.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1904")));
+		assertTrue(bookFour.getLaunchDate().isEqual(LocalDate.of(1904, 01, 01)));
 		assertEquals(104.00, bookFour.getPrice());
 		assertEquals("Title Test4", bookFour.getTitle());
 		
@@ -192,7 +192,7 @@ class BookServiceTest {
 		
 		assertTrue(bookSeven.toString().contains("links: [</api/book/v1/7>;rel=\"self\"]"));
 		assertEquals("Author Test7", bookSeven.getAuthor());
-		assertTrue(bookSeven.getLaunchDate().equals(new SimpleDateFormat("dd/MM/yyyy").parse("01/01/1907")));
+		assertTrue(bookSeven.getLaunchDate().isEqual(LocalDate.of(1907, 01, 01)));
 		assertEquals(107.00, bookSeven.getPrice());
 		assertEquals("Title Test7", bookSeven.getTitle());
 	}

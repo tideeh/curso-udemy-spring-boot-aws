@@ -12,7 +12,7 @@ import com.example.api.repository.BookRepository;
 import com.example.api.util.exception.RequiredObjectIsNullException;
 import com.example.api.util.exception.ResourceNotFoundException;
 import com.example.api.util.mapper.BookMapper;
-import com.example.api.vo.v1.BookVO;
+import com.example.api.util.vo.v1.BookVO;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;

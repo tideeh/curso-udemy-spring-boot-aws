@@ -16,8 +16,8 @@ import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder.SecretKeyFactoryAlgorithm;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.api.security.jwt.JwtConfigurer;
-import com.example.api.security.jwt.JwtTokenProvider;
+import com.example.api.util.security.jwt.JwtConfigurer;
+import com.example.api.util.security.jwt.JwtTokenProvider;
 
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;

@@ -7,8 +7,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.example.api.model.Person;
-import com.example.api.vo.v1.PersonVO;
-import com.example.api.vo.v2.PersonVOV2;
+import com.example.api.util.vo.v1.PersonVO;
+import com.example.api.util.vo.v2.PersonVOV2;
 
 @Mapper(componentModel = "spring")
 public interface PersonMapper {

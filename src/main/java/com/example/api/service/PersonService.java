@@ -15,8 +15,8 @@ import com.example.api.util.exception.InvalidObjectPropertyException;
 import com.example.api.util.exception.RequiredObjectIsNullException;
 import com.example.api.util.exception.ResourceNotFoundException;
 import com.example.api.util.mapper.PersonMapper;
-import com.example.api.vo.v1.PersonVO;
-import com.example.api.vo.v2.PersonVOV2;
+import com.example.api.util.vo.v1.PersonVO;
+import com.example.api.util.vo.v2.PersonVOV2;
 
 @Service
 public class PersonService {
@@ -157,6 +157,7 @@ public class PersonService {
         entity.setLastName(personVOV2.getLastName());
         entity.setAddress(personVOV2.getAddress());
         entity.setGender(personVOV2.getGender());
+        entity.setBirthday(personVOV2.getBirthday());
 
         var vo = PersonMapper.INSTANCE.personToVOV2(repository.save(entity));
 
@@ -175,19 +176,5 @@ public class PersonService {
         
         repository.delete(entity);
     }
-
-    /*
-    private Person mockPerson(Long i) {
-        
-        Person person = new Person();
-        person.setId(i);
-        person.setFirstName("Person name "+i);
-        person.setLastName("Last name "+i);
-        person.setAddres("Address "+i);
-        person.setGender("Gender "+i);
-
-        return person;
-    }
-     */
     
 }

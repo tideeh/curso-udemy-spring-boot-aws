@@ -3,7 +3,7 @@ package com.example.api.unittests.mapper;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,10 +13,10 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.api.util.mapper.PersonMapper;
-import com.example.api.vo.v1.PersonVO;
-import com.example.api.vo.v2.PersonVOV2;
-import com.example.api.mocks.MockPerson;
+import com.example.api.util.vo.v1.PersonVO;
+import com.example.api.util.vo.v2.PersonVOV2;
 import com.example.api.model.Person;
+import com.example.api.unittests.util.mock.MockPerson;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public class MapperPersonVOTest {
@@ -116,7 +116,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test0", output.getLastName());
         assertEquals("Address Test0", output.getAddress());
         assertEquals("Male", output.getGender());
-        assertTrue(output.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2000")));
+        assertTrue(output.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
     }
 
     @Test
@@ -127,7 +127,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test0", output.getLastName());
         assertEquals("Address Test0", output.getAddress());
         assertEquals("Male", output.getGender());
-        assertTrue(output.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2000")));
+        assertTrue(output.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
     }
 
     @Test
@@ -140,7 +140,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test0", outputZero.getLastName());
         assertEquals("Address Test0", outputZero.getAddress());
         assertEquals("Male", outputZero.getGender());
-        assertTrue(outputZero.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2000")));
+        assertTrue(outputZero.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
         
         PersonVOV2 outputSeven = outputList.get(7);
         
@@ -149,7 +149,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test7", outputSeven.getLastName());
         assertEquals("Address Test7", outputSeven.getAddress());
         assertEquals("Female", outputSeven.getGender());
-        assertTrue(outputSeven.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2007")));
+        assertTrue(outputSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
         
         PersonVOV2 outputTwelve = outputList.get(12);
         
@@ -158,7 +158,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test12", outputTwelve.getLastName());
         assertEquals("Address Test12", outputTwelve.getAddress());
         assertEquals("Male", outputTwelve.getGender());
-        assertTrue(outputTwelve.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2012")));
+        assertTrue(outputTwelve.getBirthday().isEqual(LocalDate.of(2012, 01, 25)));
     }
 
     @Test
@@ -171,7 +171,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test0", outputZero.getLastName());
         assertEquals("Address Test0", outputZero.getAddress());
         assertEquals("Male", outputZero.getGender());
-        assertTrue(outputZero.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2000")));
+        assertTrue(outputZero.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
         
         Person outputSeven = outputList.get(7);
         
@@ -180,7 +180,7 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test7", outputSeven.getLastName());
         assertEquals("Address Test7", outputSeven.getAddress());
         assertEquals("Female", outputSeven.getGender());
-        assertTrue(outputSeven.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2007")));
+        assertTrue(outputSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
         
         Person outputTwelve = outputList.get(12);
         
@@ -189,6 +189,6 @@ public class MapperPersonVOTest {
         assertEquals("Last Name Test12", outputTwelve.getLastName());
         assertEquals("Address Test12", outputTwelve.getAddress());
         assertEquals("Male", outputTwelve.getGender());
-        assertTrue(outputTwelve.getBirthday().equals(new SimpleDateFormat("dd/MM/yyyy").parse("25/01/2012")));
+        assertTrue(outputTwelve.getBirthday().isEqual(LocalDate.of(2012, 01, 25)));
     }
 }

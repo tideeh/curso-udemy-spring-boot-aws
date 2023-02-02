@@ -1,44 +1,34 @@
-package com.example.api.model;
+package com.example.api.util.vo.v1;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import org.springframework.hateoas.RepresentationModel;
+import org.springframework.lang.Nullable;
 
-@Entity
-@Table(name = "books")
-public class Book implements Serializable {
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
+
+@JsonPropertyOrder({"id", "author", "launchDate", "price","title"})
+public class BookVO extends RepresentationModel<BookVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(length = 200, nullable = false)
     private String author;
 
-    @Column(name = "launch_date", nullable = false)
-    @Temporal(TemporalType.DATE)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate launchDate;
-
-    @Column(nullable = false)
+    
     private Double price;
-
-    @Column(length = 500, nullable = false)
     private String title;
 
-
-    public Book() {
-    }
+    public BookVO() {}
 
     public Long getId() {
         return this.id;
@@ -81,14 +71,14 @@ public class Book implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Book)) {
+        if (!(o instanceof BookVO)) {
             return false;
         }
-        Book book = (Book) o;
-        return Objects.equals(id, book.id) && Objects.equals(author, book.author) && Objects.equals(launchDate, book.launchDate) && Objects.equals(price, book.price) && Objects.equals(title, book.title);
+        BookVO bookVO = (BookVO) o;
+        return Objects.equals(id, bookVO.id) && Objects.equals(author, bookVO.author) && Objects.equals(launchDate, bookVO.launchDate) && Objects.equals(price, bookVO.price) && Objects.equals(title, bookVO.title);
     }
 
     @Override
@@ -96,4 +86,5 @@ public class Book implements Serializable {
         return Objects.hash(id, author, launchDate, price, title);
     }
 
+    
 }
