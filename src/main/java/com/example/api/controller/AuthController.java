@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.service.AuthService;
-import com.example.api.vo.v1.security.AccountCredentialsVO;
+import com.example.api.util.vo.v1.security.AccountCredentialsVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

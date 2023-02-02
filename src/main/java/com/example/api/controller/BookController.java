@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.api.service.BookService;
 import com.example.api.util.MediaType;
-import com.example.api.vo.v1.BookVO;
+import com.example.api.util.vo.v1.BookVO;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

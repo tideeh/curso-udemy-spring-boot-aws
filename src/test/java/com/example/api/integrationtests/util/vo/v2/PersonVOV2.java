@@ -1,45 +1,38 @@
-package com.example.api.model;
+package com.example.api.integrationtests.util.vo.v2;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
+import org.springframework.lang.Nullable;
 
-@Entity
-@Table(name = "person")
-public class Person implements Serializable {
+import com.example.api.integrationtests.util.LocalDateXmlAdapter;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement
+public class PersonVOV2 implements Serializable {
+    
     private static final long serialVersionUID = 1L;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "first_name", nullable = false, length = 80)
     private String firstName;
-
-    @Column(name = "last_name", nullable = false, length = 80)
     private String lastName;
-
-    @Column(nullable = false, length = 100)
-    private String address;
-
-    @Column(nullable = false, length = 6)
     private String gender;
 
-    @Temporal(TemporalType.DATE)
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate birthday;
+    
+    private String address;
 
-    public Person() {
-    }
+    public PersonVOV2() {}
 
     public Long getId() {
         return this.id;
@@ -81,6 +74,7 @@ public class Person implements Serializable {
         this.gender = gender;
     }
 
+    @XmlJavaTypeAdapter(value = LocalDateXmlAdapter.class)
     public LocalDate getBirthday() {
         return this.birthday;
     }
@@ -90,14 +84,14 @@ public class Person implements Serializable {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(@Nullable Object o) {
         if (o == this)
             return true;
-        if (!(o instanceof Person)) {
+        if (!(o instanceof PersonVOV2)) {
             return false;
         }
-        Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(birthday, person.birthday);
+        PersonVOV2 personVOv2 = (PersonVOV2) o;
+        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthday, personVOv2.birthday);
     }
 
     @Override
@@ -105,7 +99,4 @@ public class Person implements Serializable {
         return Objects.hash(id, firstName, lastName, address, gender, birthday);
     }
 
-
-
-    
 }

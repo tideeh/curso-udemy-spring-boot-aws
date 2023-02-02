@@ -10,9 +10,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.example.api.repository.UserRepository;
-import com.example.api.security.jwt.JwtTokenProvider;
-import com.example.api.vo.v1.security.AccountCredentialsVO;
-import com.example.api.vo.v1.security.TokenVO;
+import com.example.api.util.security.jwt.JwtTokenProvider;
+import com.example.api.util.vo.v1.security.AccountCredentialsVO;
+import com.example.api.util.vo.v1.security.TokenVO;
 
 @Service
 public class AuthService {

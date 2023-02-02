@@ -1,4 +1,4 @@
-package com.example.api.integrationtests.controller.withjson;
+package com.example.api.integrationtests.controller.withxml;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,13 +18,12 @@ import com.example.api.integrationtests.util.containers.AbstractIntegrationTest;
 import com.example.api.integrationtests.util.mock.MockPerson;
 import com.example.api.integrationtests.util.vo.v1.AccountCredentialsVO;
 import com.example.api.integrationtests.util.vo.v1.PersonVO;
-import com.example.api.integrationtests.util.vo.v1.TokenVO;
 import com.example.api.integrationtests.util.vo.v2.PersonVOV2;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 import io.restassured.specification.RequestSpecification;
 import io.restassured.builder.RequestSpecBuilder;
@@ -34,18 +33,18 @@ import io.restassured.filter.log.ResponseLoggingFilter;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
-public class PersonControllerJsonTest extends AbstractIntegrationTest {
+public class PersonControllerXmlTest extends AbstractIntegrationTest {
 
 	private static RequestSpecification specification;
 	private static RequestSpecification specificationV2;
-	private static ObjectMapper objectMapper;
+	private static XmlMapper xmlMapper;
 	private static PersonVO vo;
 	private static PersonVOV2 voV2;
 
 	@BeforeAll
 	public static void setup() {
-		objectMapper = new ObjectMapper();
-		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		xmlMapper = new XmlMapper();
+		xmlMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 		vo = MockPerson.mockVO();
 		voV2 = MockPerson.mockVOV2();
 	}
@@ -59,8 +58,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 			given()
 				.basePath("/auth/signin")
 				.port(TestsConstants.SERVER_PORT)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.body(accountCredentials)
 				.when()
 					.post()
@@ -68,8 +67,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.statusCode(200)
 				.extract()
 					.body()
-						.as(TokenVO.class)
-							.getAccessToken();
+						.path("TokenVO.accessToken");
 		
 		specification = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_AUTHORIZATION, "Bearer "+accessToken)
@@ -94,8 +92,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.body(vo)
 				.when()
 					.post()
@@ -105,7 +103,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		PersonVO persistedVO = objectMapper.readValue(content, PersonVO.class);
+		PersonVO persistedVO = xmlMapper.readValue(content, PersonVO.class);
 		vo = persistedVO;
 
 		assertNotNull(persistedVO);
@@ -131,8 +129,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.body(vo)
 				.when()
 					.put()
@@ -142,7 +140,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		PersonVO persistedVO = objectMapper.readValue(content, PersonVO.class);
+		PersonVO persistedVO = xmlMapper.readValue(content, PersonVO.class);
 
 		assertNotNull(persistedVO);
 		assertNotNull(persistedVO.getId());
@@ -165,8 +163,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.pathParam("id", vo.getId())
 				.when()
 					.get("{id}")
@@ -176,7 +174,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		PersonVO persistedVO = objectMapper.readValue(content, PersonVO.class);
+		PersonVO persistedVO = xmlMapper.readValue(content, PersonVO.class);
 
 		assertNotNull(persistedVO);
 		assertNotNull(persistedVO.getId());
@@ -198,8 +196,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 		given()
 			.spec(specification)
-			.accept(TestsConstants.CONTENT_TYPE_JSON)
-			.contentType(TestsConstants.CONTENT_TYPE_JSON)
+			.accept(TestsConstants.CONTENT_TYPE_XML)
+			.contentType(TestsConstants.CONTENT_TYPE_XML)
 			.pathParam("id", vo.getId())
 			.when()
 				.delete("{id}")
@@ -213,8 +211,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.when()
 					.get()
 				.then()
@@ -223,9 +221,9 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<PersonVO> listPersonVO = objectMapper.readValue(content, new TypeReference<List<PersonVO>>() {});
+		List<PersonVO> listVO = xmlMapper.readValue(content, new TypeReference<List<PersonVO>>() {});
 
-		PersonVO elementOne = listPersonVO.get(0);
+		PersonVO elementOne = listVO.get(0);
 		assertNotNull(elementOne);
 		assertNotNull(elementOne.getId());
 		assertNotNull(elementOne.getFirstName());
@@ -238,7 +236,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddres());
 		assertEquals("Male", elementOne.getGender());
 
-		PersonVO elementSix = listPersonVO.get(5);
+		PersonVO elementSix = listVO.get(5);
 		assertNotNull(elementSix);
 		assertNotNull(elementSix.getId());
 		assertNotNull(elementSix.getFirstName());
@@ -264,8 +262,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		
 		given()
 			.spec(specificationWithoutToken)
-			.accept(TestsConstants.CONTENT_TYPE_JSON)
-			.contentType(TestsConstants.CONTENT_TYPE_JSON)
+			.accept(TestsConstants.CONTENT_TYPE_XML)
+			.contentType(TestsConstants.CONTENT_TYPE_XML)
 			.when()
 				.get()
 			.then()
@@ -278,8 +276,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.body(voV2)
 				.when()
 					.post()
@@ -289,7 +287,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		PersonVOV2 persistedVOV2 = objectMapper.readValue(content, PersonVOV2.class);
+		PersonVOV2 persistedVOV2 = xmlMapper.readValue(content, PersonVOV2.class);
 		voV2 = persistedVOV2;
 
 		assertNotNull(persistedVOV2);
@@ -317,8 +315,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.body(voV2)
 				.when()
 					.put()
@@ -328,7 +326,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		PersonVOV2 persistedVOV2 = objectMapper.readValue(content, PersonVOV2.class);
+		PersonVOV2 persistedVOV2 = xmlMapper.readValue(content, PersonVOV2.class);
 
 		assertNotNull(persistedVOV2);
 		assertNotNull(persistedVOV2.getId());
@@ -353,8 +351,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.pathParam("id", voV2.getId())
 				.when()
 					.get("{id}")
@@ -364,7 +362,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		PersonVOV2 persistedVOV2 = objectMapper.readValue(content, PersonVOV2.class);
+		PersonVOV2 persistedVOV2 = xmlMapper.readValue(content, PersonVOV2.class);
 
 		assertNotNull(persistedVOV2);
 		assertNotNull(persistedVOV2.getId());
@@ -388,8 +386,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 	public void testDeleteV2() throws JsonMappingException, JsonProcessingException {
 		given()
 			.spec(specificationV2)
-			.accept(TestsConstants.CONTENT_TYPE_JSON)
-			.contentType(TestsConstants.CONTENT_TYPE_JSON)
+			.accept(TestsConstants.CONTENT_TYPE_XML)
+			.contentType(TestsConstants.CONTENT_TYPE_XML)
 			.pathParam("id", voV2.getId())
 			.when()
 				.delete("{id}")
@@ -403,8 +401,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
+				.accept(TestsConstants.CONTENT_TYPE_XML)
+				.contentType(TestsConstants.CONTENT_TYPE_XML)
 				.when()
 					.get()
 				.then()
@@ -413,7 +411,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<PersonVOV2> listVOV2 = objectMapper.readValue(content, new TypeReference<List<PersonVOV2>>() {});
+		List<PersonVOV2> listVOV2 = xmlMapper.readValue(content, new TypeReference<List<PersonVOV2>>() {});
 
 		PersonVOV2 elementOne = listVOV2.get(0);
 		assertNotNull(elementOne);
@@ -456,8 +454,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		
 		given()
 			.spec(specificationWithoutToken)
-			.accept(TestsConstants.CONTENT_TYPE_JSON)
-			.contentType(TestsConstants.CONTENT_TYPE_JSON)
+			.accept(TestsConstants.CONTENT_TYPE_XML)
+			.contentType(TestsConstants.CONTENT_TYPE_XML)
 			.when()
 				.get()
 			.then()
