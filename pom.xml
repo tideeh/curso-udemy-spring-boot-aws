@@ -15,7 +15,7 @@
 	<description>Curso Udemy - REST API&apos;s RESTFul do 0 à AWS c. Spring Boot 3 Java e Docker</description>
 	<properties>
 		<start-class>com.example.api.Startup</start-class>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 		<org.mapstruct.version>1.5.3.Final</org.mapstruct.version>
 		<org.springdoc.version>2.0.2</org.springdoc.version>
 		<testcontainers.version>1.17.6</testcontainers.version>

@@ -31,6 +31,7 @@ public class PersonVOV2 implements Serializable {
     private LocalDate birthday;
     
     private String address;
+    private Boolean enabled;
 
     public PersonVOV2() {}
 
@@ -83,6 +84,18 @@ public class PersonVOV2 implements Serializable {
         this.birthday = birthday;
     }
 
+    public Boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public Boolean getEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(@Nullable Object o) {
         if (o == this)
@@ -90,13 +103,13 @@ public class PersonVOV2 implements Serializable {
         if (!(o instanceof PersonVOV2)) {
             return false;
         }
-        PersonVOV2 personVOv2 = (PersonVOV2) o;
-        return Objects.equals(id, personVOv2.id) && Objects.equals(firstName, personVOv2.firstName) && Objects.equals(lastName, personVOv2.lastName) && Objects.equals(address, personVOv2.address) && Objects.equals(gender, personVOv2.gender) && Objects.equals(birthday, personVOv2.birthday);
+        PersonVOV2 personVOV2 = (PersonVOV2) o;
+        return Objects.equals(id, personVOV2.id) && Objects.equals(firstName, personVOV2.firstName) && Objects.equals(lastName, personVOV2.lastName) && Objects.equals(gender, personVOV2.gender) && Objects.equals(birthday, personVOV2.birthday) && Objects.equals(address, personVOV2.address) && Objects.equals(enabled, personVOV2.enabled);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender, birthday);
+        return Objects.hash(id, firstName, lastName, gender, birthday, address, enabled);
     }
 
 }

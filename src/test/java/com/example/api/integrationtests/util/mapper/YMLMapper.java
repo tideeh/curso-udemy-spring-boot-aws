@@ -1,4 +1,4 @@
-package com.example.api.integrationtests.controller.withyaml.mapper;
+package com.example.api.integrationtests.util.mapper;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;

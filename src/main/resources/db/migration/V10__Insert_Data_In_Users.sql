@@ -1,3 +1,0 @@
-INSERT INTO `users` (`user_name`, `full_name`, `password`, `account_non_expired`, `account_non_locked`, `credentials_non_expired`, `enabled`) VALUES
-	('tideeh', 'André Martins', '6181162f0170a167e1df3317533bb6420c889a58d2aac501fdd7dce61e672fd8245e3b893ce45748', b'1', b'1', b'1', b'1'),
-	('dilores', 'Jurema Silva', '7f0cafa18078c08879cf7f0f21b5bae5ae8f0bb5e6f5d86e27454aab04442abfda80c0454c3f3d8b', b'1', b'1', b'1', b'1');

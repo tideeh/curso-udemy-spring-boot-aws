@@ -51,6 +51,7 @@ class BookServiceTest {
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
 		
 		var result = service.findById(1L);
+
 		assertNotNull(result);
 		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
@@ -110,7 +111,6 @@ class BookServiceTest {
 		BookVO vo = input.mockVO(1);
 		vo.setId(1L);
 		
-
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
 		when(repository.save(entity)).thenReturn(persisted);
 		

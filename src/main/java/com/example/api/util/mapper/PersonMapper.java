@@ -20,6 +20,7 @@ public interface PersonMapper {
 
     @Mapping(source = "addres", target = "address")
     @Mapping(target = "birthday", ignore = true)
+    @Mapping(target = "enabled", ignore = true)
     Person VOToPerson(PersonVO o);
 
     List<PersonVO> personListToVOList(List<Person> o);

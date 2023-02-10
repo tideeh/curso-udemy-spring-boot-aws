@@ -1,4 +1,4 @@
-package com.example.api.integrationtests.util.vo.v1;
+package com.example.api.integrationtests.util.vo.v1.security;
 
 import java.io.Serializable;
 import java.util.Date;

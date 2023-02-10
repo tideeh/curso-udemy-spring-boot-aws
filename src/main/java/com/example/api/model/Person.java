@@ -38,8 +38,10 @@ public class Person implements Serializable {
     @Temporal(TemporalType.DATE)
     private LocalDate birthday;
 
-    public Person() {
-    }
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
+    public Person() {}
 
     public Long getId() {
         return this.id;
@@ -89,6 +91,18 @@ public class Person implements Serializable {
         this.birthday = birthday;
     }
 
+    public Boolean isEnabled() {
+        return this.enabled;
+    }
+
+    public Boolean getEnabled() {
+        return this.enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == this)
@@ -97,15 +111,12 @@ public class Person implements Serializable {
             return false;
         }
         Person person = (Person) o;
-        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(birthday, person.birthday);
+        return Objects.equals(id, person.id) && Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName) && Objects.equals(address, person.address) && Objects.equals(gender, person.gender) && Objects.equals(enabled, person.enabled) && Objects.equals(birthday, person.birthday);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, firstName, lastName, address, gender, birthday);
+        return Objects.hash(id, firstName, lastName, address, gender, enabled, birthday);
     }
 
-
-
-    
 }

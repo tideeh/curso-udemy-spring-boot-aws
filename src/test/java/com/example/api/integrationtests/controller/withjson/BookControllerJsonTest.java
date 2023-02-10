@@ -3,6 +3,7 @@ package com.example.api.integrationtests.controller.withjson;
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,9 +17,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.api.config.TestsConstants;
 import com.example.api.integrationtests.util.containers.AbstractIntegrationTest;
 import com.example.api.integrationtests.util.mock.MockBook;
-import com.example.api.integrationtests.util.vo.v1.AccountCredentialsVO;
+import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO;
 import com.example.api.integrationtests.util.vo.v1.BookVO;
-import com.example.api.integrationtests.util.vo.v1.TokenVO;
+import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -40,7 +41,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 	private static BookVO bookVO;
 
 	@BeforeAll
-	public static void setup() {
+	public static void setup() throws ParseException {
 		objectMapper = new ObjectMapper();
 		objectMapper.findAndRegisterModules(); // registra LocalDateTime
 		objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -50,7 +51,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 	@Test
 	@Order(0)
 	public void authorization() {
-		AccountCredentialsVO accountCredentials = new AccountCredentialsVO("dilores", "102030");
+		AccountCredentialsVO accountCredentials = new AccountCredentialsVO(TestsConstants.USERNAME_TEST, TestsConstants.PASSWORD_TEST);
 
 		var accessToken = 
 			given()
@@ -70,6 +71,8 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		
 		specification = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_AUTHORIZATION, "Bearer "+accessToken)
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_JSON)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/book/v1")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -83,8 +86,6 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.body(bookVO)
 				.when()
 					.post()
@@ -105,8 +106,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedBookVO.getLaunchDate());
 
 		assertTrue(persistedBookVO.getId() > 0);
-		
-		assertEquals("O Código Da Vinci", persistedBookVO.getTitle());
+		assertEquals("O Codigo Da Vinci", persistedBookVO.getTitle());
 		assertEquals("Dan Brown", persistedBookVO.getAuthor());
 		assertEquals(35.46, persistedBookVO.getPrice());
 		assertTrue(persistedBookVO.getLaunchDate().isEqual(LocalDate.of(2021, 04, 15)));
@@ -115,13 +115,11 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 	@Test
 	@Order(2)
 	public void testUpdate() throws JsonMappingException, JsonProcessingException {
-		bookVO.setTitle("O Código Da Vinci (Robert Langdon - Livro 2)");
+		bookVO.setTitle("O Codigo Da Vinci (Robert Langdon - Livro 2)");
 
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.body(bookVO)
 				.when()
 					.put()
@@ -141,8 +139,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedBookVO.getLaunchDate());
 
 		assertEquals(bookVO.getId(), persistedBookVO.getId());
-		
-		assertEquals("O Código Da Vinci (Robert Langdon - Livro 2)", persistedBookVO.getTitle());
+		assertEquals("O Codigo Da Vinci (Robert Langdon - Livro 2)", persistedBookVO.getTitle());
 		assertEquals("Dan Brown", persistedBookVO.getAuthor());
 		assertEquals(35.46, persistedBookVO.getPrice());
 		assertTrue(persistedBookVO.getLaunchDate().isEqual(LocalDate.of(2021, 04, 15)));
@@ -154,8 +151,6 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.pathParam("id", bookVO.getId())
 				.when()
 					.get("{id}")
@@ -175,8 +170,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedBookVO.getLaunchDate());
 
 		assertEquals(bookVO.getId(), persistedBookVO.getId());
-		
-		assertEquals("O Código Da Vinci (Robert Langdon - Livro 2)", persistedBookVO.getTitle());
+		assertEquals("O Codigo Da Vinci (Robert Langdon - Livro 2)", persistedBookVO.getTitle());
 		assertEquals("Dan Brown", persistedBookVO.getAuthor());
 		assertEquals(35.46, persistedBookVO.getPrice());
 		assertTrue(persistedBookVO.getLaunchDate().isEqual(LocalDate.of(2021, 04, 15)));
@@ -187,8 +181,6 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 		given()
 			.spec(specification)
-			.accept(TestsConstants.CONTENT_TYPE_JSON)
-			.contentType(TestsConstants.CONTENT_TYPE_JSON)
 			.pathParam("id", bookVO.getId())
 			.when()
 				.delete("{id}")
@@ -202,8 +194,6 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.when()
 					.get()
 				.then()
@@ -215,25 +205,29 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		List<BookVO> listBookVO = objectMapper.readValue(content, new TypeReference<List<BookVO>>() {});
 
 		BookVO foundBookOne = listBookVO.get(0);
+
 		assertNotNull(foundBookOne);
 		assertNotNull(foundBookOne.getId());
 		assertNotNull(foundBookOne.getTitle());
 		assertNotNull(foundBookOne.getAuthor());
 		assertNotNull(foundBookOne.getPrice());
 		assertNotNull(foundBookOne.getLaunchDate());
+
 		assertEquals(1, foundBookOne.getId());
 		assertEquals("Working effectively with legacy code", foundBookOne.getTitle());
 		assertEquals("Michael C. Feathers", foundBookOne.getAuthor());
 		assertEquals(49.00, foundBookOne.getPrice());
 		assertTrue(foundBookOne.getLaunchDate().isEqual(LocalDate.of(2017, 11, 29)));
-
+		
 		BookVO foundBookSix = listBookVO.get(5);
+
 		assertNotNull(foundBookSix);
 		assertNotNull(foundBookSix.getId());
 		assertNotNull(foundBookSix.getTitle());
 		assertNotNull(foundBookSix.getAuthor());
 		assertNotNull(foundBookSix.getPrice());
 		assertNotNull(foundBookSix.getLaunchDate());
+
 		assertEquals(6, foundBookSix.getId());
 		assertEquals("Refactoring", foundBookSix.getTitle());
 		assertEquals("Martin Fowler e Kent Beck", foundBookSix.getAuthor());
@@ -245,6 +239,8 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 	@Order(6)
 	public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_JSON)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/book/v1")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -253,8 +249,6 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		
 		given()
 			.spec(specificationWithoutToken)
-			.accept(TestsConstants.CONTENT_TYPE_JSON)
-			.contentType(TestsConstants.CONTENT_TYPE_JSON)
 			.when()
 				.get()
 			.then()

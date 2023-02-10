@@ -2,6 +2,7 @@ package com.example.api.unittests.mockito.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doNothing;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -51,6 +52,7 @@ class PersonServiceTest {
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
 		
 		var result = service.findById(1L);
+		
 		assertNotNull(result);
 		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
@@ -206,16 +208,18 @@ class PersonServiceTest {
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
 		
 		var result = service.findByIdV2(1L);
+
 		assertNotNull(result);
 		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
-		
+
 		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", result.getAddress());
 		assertEquals("First Name Test1", result.getFirstName());
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
 		assertTrue(result.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+		assertFalse(result.getEnabled());
 	}
 	
 	@Test
@@ -232,17 +236,18 @@ class PersonServiceTest {
 		when(repository.save(entity)).thenReturn(persisted);
 		
 		var result = service.createV2(vo);
-		
+
 		assertNotNull(result);
 		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
-		
+
 		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", result.getAddress());
 		assertEquals("First Name Test1", result.getFirstName());
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
 		assertTrue(result.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+		assertFalse(result.getEnabled());
 	}
 	
 	@Test
@@ -263,26 +268,28 @@ class PersonServiceTest {
 		
 		Person persisted = entity;
 		persisted.setId(1L);
+		persisted.setFirstName("First Name Test1 updated");
 		
 		PersonVOV2 vo = input.mockVOV2(1);
 		vo.setId(1L);
-		
+		vo.setFirstName("First Name Test1 updated");
 
 		when(repository.findById(1L)).thenReturn(Optional.of(entity));
 		when(repository.save(entity)).thenReturn(persisted);
 		
 		var result = service.updateV2(vo);
-		
+
 		assertNotNull(result);
 		assertNotNull(result.getId());
 		assertNotNull(result.getLinks());
-		
+
 		assertTrue(result.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", result.getAddress());
-		assertEquals("First Name Test1", result.getFirstName());
+		assertEquals("First Name Test1 updated", result.getFirstName());
 		assertEquals("Last Name Test1", result.getLastName());
 		assertEquals("Female", result.getGender());
 		assertTrue(result.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+		assertFalse(result.getEnabled());
 	}
 	
 	@Test
@@ -304,48 +311,76 @@ class PersonServiceTest {
 		when(repository.findAll()).thenReturn(list);
 		
 		var people = service.findAllV2();
-		
 		assertNotNull(people);
 		assertEquals(14, people.size());
 		
 		var personOne = people.get(1);
-		
+
 		assertNotNull(personOne);
 		assertNotNull(personOne.getId());
 		assertNotNull(personOne.getLinks());
-		
+
 		assertTrue(personOne.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
 		assertEquals("Address Test1", personOne.getAddress());
 		assertEquals("First Name Test1", personOne.getFirstName());
 		assertEquals("Last Name Test1", personOne.getLastName());
 		assertEquals("Female", personOne.getGender());
 		assertTrue(personOne.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
+		assertFalse(personOne.getEnabled());
 		
 		var personFour = people.get(4);
-		
+
 		assertNotNull(personFour);
 		assertNotNull(personFour.getId());
 		assertNotNull(personFour.getLinks());
-		
+
 		assertTrue(personFour.toString().contains("links: [</api/person/v2/4>;rel=\"self\"]"));
 		assertEquals("Address Test4", personFour.getAddress());
 		assertEquals("First Name Test4", personFour.getFirstName());
 		assertEquals("Last Name Test4", personFour.getLastName());
 		assertEquals("Male", personFour.getGender());
 		assertTrue(personFour.getBirthday().isEqual(LocalDate.of(2004, 01, 25)));
+		assertTrue(personFour.getEnabled());
 		
 		var personSeven = people.get(7);
-		
+
 		assertNotNull(personSeven);
 		assertNotNull(personSeven.getId());
 		assertNotNull(personSeven.getLinks());
-		
+
 		assertTrue(personSeven.toString().contains("links: [</api/person/v2/7>;rel=\"self\"]"));
 		assertEquals("Address Test7", personSeven.getAddress());
 		assertEquals("First Name Test7", personSeven.getFirstName());
 		assertEquals("Last Name Test7", personSeven.getLastName());
 		assertEquals("Female", personSeven.getGender());
 		assertTrue(personSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
+		assertFalse(personSeven.getEnabled());
+	}
+
+	@Test
+	void testDisableV2() throws Exception {
+		Person entity = input.mockEntityV2(0);
+		entity.setEnabled(true);
+		
+		Person persisted = entity;
+		persisted.setEnabled(false);
+
+		doNothing().when(repository).disablePerson(0L);
+		when(repository.findById(0L)).thenReturn(Optional.of(persisted));
+
+		var result = service.disablePersonV2(0L);
+
+		assertNotNull(result);
+		assertNotNull(result.getId());
+		assertNotNull(result.getLinks());
+
+		assertTrue(result.toString().contains("links: [</api/person/v2/0>;rel=\"self\"]"));
+		assertEquals("Address Test0", result.getAddress());
+		assertEquals("First Name Test0", result.getFirstName());
+		assertEquals("Last Name Test0", result.getLastName());
+		assertEquals("Male", result.getGender());
+		assertTrue(result.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
+		assertFalse(result.getEnabled());
 	}
 
 }
