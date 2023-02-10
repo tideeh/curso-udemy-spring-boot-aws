@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -442,6 +443,51 @@ public class PersonController {
     public ResponseEntity<?> deleteV2(@PathVariable(value = "id") Long id) throws Exception {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping(
+        value = "/v2/{id}",
+        produces = { MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_YML_VALUE }
+    )
+    @Operation(
+        summary = "Disable a Person", 
+        description = "Disable a Person by your ID - v2", 
+        tags = {"People"}, 
+        responses = {
+            @ApiResponse(
+                description = "Success", 
+                responseCode = "200", 
+                content = @Content(schema = @Schema(implementation = PersonVOV2.class))
+            ),
+            @ApiResponse(
+                description = "No Content", 
+                responseCode = "204", 
+                content = @Content
+            ),
+            @ApiResponse(
+                description = "Bad Request", 
+                responseCode = "400", 
+                content = @Content
+            ),
+            @ApiResponse(
+                description = "Unauthorized", 
+                responseCode = "401", 
+                content = @Content
+            ),
+            @ApiResponse(
+                description = "Not Found", 
+                responseCode = "404", 
+                content = @Content
+            ),
+            @ApiResponse(
+                description = "Internal Errorr", 
+                responseCode = "500", 
+                content = @Content
+            ),
+        }
+    )
+    public PersonVOV2 disablePersonV2(@PathVariable(value = "id") Long id) throws Exception {
+        return service.disablePersonV2(id);
     }
 
 }

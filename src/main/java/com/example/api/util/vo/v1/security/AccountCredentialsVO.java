@@ -3,6 +3,9 @@ package com.example.api.util.vo.v1.security;
 import java.io.Serializable;
 import java.util.Objects;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class AccountCredentialsVO implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -55,8 +55,8 @@ public class MapperPersonVOTest {
     @Test
     public void personListToVOListTest() {
         List<PersonVO> outputList = mapper.personListToVOList(inputObject.mockEntityList());
+       
         PersonVO outputZero = outputList.get(0);
-        
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("First Name Test0", outputZero.getFirstName());
         assertEquals("Last Name Test0", outputZero.getLastName());
@@ -64,7 +64,6 @@ public class MapperPersonVOTest {
         assertEquals("Male", outputZero.getGender());
         
         PersonVO outputSeven = outputList.get(7);
-        
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("First Name Test7", outputSeven.getFirstName());
         assertEquals("Last Name Test7", outputSeven.getLastName());
@@ -72,7 +71,6 @@ public class MapperPersonVOTest {
         assertEquals("Female", outputSeven.getGender());
         
         PersonVO outputTwelve = outputList.get(12);
-        
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("First Name Test12", outputTwelve.getFirstName());
         assertEquals("Last Name Test12", outputTwelve.getLastName());
@@ -83,8 +81,8 @@ public class MapperPersonVOTest {
     @Test
     public void VOListToPersonListTest() {
         List<Person> outputList = mapper.VOListToPersonList(inputObject.mockVOList());
-        Person outputZero = outputList.get(0);
         
+        Person outputZero = outputList.get(0);
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("First Name Test0", outputZero.getFirstName());
         assertEquals("Last Name Test0", outputZero.getLastName());
@@ -92,7 +90,6 @@ public class MapperPersonVOTest {
         assertEquals("Male", outputZero.getGender());
         
         Person outputSeven = outputList.get(7);
-        
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("First Name Test7", outputSeven.getFirstName());
         assertEquals("Last Name Test7", outputSeven.getLastName());
@@ -100,7 +97,6 @@ public class MapperPersonVOTest {
         assertEquals("Female", outputSeven.getGender());
         
         Person outputTwelve = outputList.get(12);
-        
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("First Name Test12", outputTwelve.getFirstName());
         assertEquals("Last Name Test12", outputTwelve.getLastName());
@@ -117,6 +113,7 @@ public class MapperPersonVOTest {
         assertEquals("Address Test0", output.getAddress());
         assertEquals("Male", output.getGender());
         assertTrue(output.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
+        assertTrue(output.getEnabled());
     }
 
     @Test
@@ -128,67 +125,70 @@ public class MapperPersonVOTest {
         assertEquals("Address Test0", output.getAddress());
         assertEquals("Male", output.getGender());
         assertTrue(output.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
+        assertTrue(output.getEnabled());
     }
 
     @Test
     public void personListToVOV2ListTest() throws ParseException {
         List<PersonVOV2> outputList = mapper.personListToVOV2List(inputObject.mockEntityListV2());
+
         PersonVOV2 outputZero = outputList.get(0);
-        
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("First Name Test0", outputZero.getFirstName());
         assertEquals("Last Name Test0", outputZero.getLastName());
         assertEquals("Address Test0", outputZero.getAddress());
         assertEquals("Male", outputZero.getGender());
         assertTrue(outputZero.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
+        assertTrue(outputZero.getEnabled());
         
         PersonVOV2 outputSeven = outputList.get(7);
-        
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("First Name Test7", outputSeven.getFirstName());
         assertEquals("Last Name Test7", outputSeven.getLastName());
         assertEquals("Address Test7", outputSeven.getAddress());
         assertEquals("Female", outputSeven.getGender());
         assertTrue(outputSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
+        assertFalse(outputSeven.getEnabled());
         
         PersonVOV2 outputTwelve = outputList.get(12);
-        
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("First Name Test12", outputTwelve.getFirstName());
         assertEquals("Last Name Test12", outputTwelve.getLastName());
         assertEquals("Address Test12", outputTwelve.getAddress());
         assertEquals("Male", outputTwelve.getGender());
         assertTrue(outputTwelve.getBirthday().isEqual(LocalDate.of(2012, 01, 25)));
+        assertTrue(outputTwelve.getEnabled());
     }
 
     @Test
     public void VOV2ListToPersonListTest() throws ParseException {
         List<Person> outputList = mapper.VOV2ListToPersonList(inputObject.mockVOV2List());
+
         Person outputZero = outputList.get(0);
-        
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("First Name Test0", outputZero.getFirstName());
         assertEquals("Last Name Test0", outputZero.getLastName());
         assertEquals("Address Test0", outputZero.getAddress());
         assertEquals("Male", outputZero.getGender());
         assertTrue(outputZero.getBirthday().isEqual(LocalDate.of(2000, 01, 25)));
+        assertTrue(outputZero.getEnabled());
         
         Person outputSeven = outputList.get(7);
-        
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("First Name Test7", outputSeven.getFirstName());
         assertEquals("Last Name Test7", outputSeven.getLastName());
         assertEquals("Address Test7", outputSeven.getAddress());
         assertEquals("Female", outputSeven.getGender());
         assertTrue(outputSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
+        assertFalse(outputSeven.getEnabled());
         
         Person outputTwelve = outputList.get(12);
-        
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("First Name Test12", outputTwelve.getFirstName());
         assertEquals("Last Name Test12", outputTwelve.getLastName());
         assertEquals("Address Test12", outputTwelve.getAddress());
         assertEquals("Male", outputTwelve.getGender());
         assertTrue(outputTwelve.getBirthday().isEqual(LocalDate.of(2012, 01, 25)));
+        assertTrue(outputTwelve.getEnabled());
     }
 }

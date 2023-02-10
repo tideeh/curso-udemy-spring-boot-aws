@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.api.config.TestsConstants;
 import com.example.api.integrationtests.util.containers.AbstractIntegrationTest;
-import com.example.api.integrationtests.util.vo.v1.AccountCredentialsVO;
-import com.example.api.integrationtests.util.vo.v1.TokenVO;
+import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO;
+import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @TestMethodOrder(OrderAnnotation.class)
@@ -23,7 +23,7 @@ public class AuthControllerJsonTest extends AbstractIntegrationTest {
     @Test
 	@Order(1)
 	public void testSignin() {
-		AccountCredentialsVO accountCredentials = new AccountCredentialsVO("dilores", "102030");
+		AccountCredentialsVO accountCredentials = new AccountCredentialsVO(TestsConstants.USERNAME_TEST, TestsConstants.PASSWORD_TEST);
 
 		tokenVO = 
 			given()

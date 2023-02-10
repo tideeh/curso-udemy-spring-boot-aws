@@ -12,8 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.example.api.config.TestsConstants;
 import com.example.api.integrationtests.util.containers.AbstractIntegrationTest;
-import com.example.api.integrationtests.util.vo.v1.AccountCredentialsVO;
-import com.example.api.integrationtests.util.vo.v1.TokenVO;
+import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO;
+import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -35,7 +35,7 @@ public class AuthControllerXmlTest extends AbstractIntegrationTest {
     @Test
 	@Order(1)
 	public void testSignin() throws JsonMappingException, JsonProcessingException {
-		AccountCredentialsVO accountCredentials = new AccountCredentialsVO("dilores", "102030");
+		AccountCredentialsVO accountCredentials = new AccountCredentialsVO(TestsConstants.USERNAME_TEST, TestsConstants.PASSWORD_TEST);
 
 		var content = 
 			given()

@@ -23,6 +23,7 @@ public class MockPerson {
 		vo.setAddress("Goiania - Goias");
 		vo.setGender("Male");
 		vo.setBirthday(LocalDate.of(1850, 06, 25));
+        vo.setEnabled(true);
         return vo;
     }
     

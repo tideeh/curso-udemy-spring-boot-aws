@@ -16,9 +16,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.example.api.config.TestsConstants;
 import com.example.api.integrationtests.util.containers.AbstractIntegrationTest;
 import com.example.api.integrationtests.util.mock.MockBook;
-import com.example.api.integrationtests.util.vo.v1.AccountCredentialsVO;
+import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO;
 import com.example.api.integrationtests.util.vo.v1.BookVO;
-import com.example.api.integrationtests.util.vo.v1.TokenVO;
+import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -49,7 +49,7 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 	@Test
 	@Order(0)
 	public void authorization() {
-		AccountCredentialsVO accountCredentials = new AccountCredentialsVO("dilores", "102030");
+		AccountCredentialsVO accountCredentials = new AccountCredentialsVO(TestsConstants.USERNAME_TEST, TestsConstants.PASSWORD_TEST);
 
 		var accessToken = 
 			given()
@@ -65,10 +65,12 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 				.extract()
 					.body()
 						.as(TokenVO.class)
-					.getAccessToken();
+							.getAccessToken();
 		
 		specification = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_AUTHORIZATION, "Bearer "+accessToken)
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_JSON)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/book/v1")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -82,8 +84,6 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-                .accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.header(TestsConstants.HEADER_PARAM_ORIGIN, TestsConstants.ORIGIN_GOOGLE)
 				.body(bookVO)
 				.when()
@@ -105,8 +105,7 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedBookVO.getLaunchDate());
 
 		assertTrue(persistedBookVO.getId() > 0);
-		
-		assertEquals("O Código Da Vinci", persistedBookVO.getTitle());
+		assertEquals("O Codigo Da Vinci", persistedBookVO.getTitle());
 		assertEquals("Dan Brown", persistedBookVO.getAuthor());
 		assertEquals(35.46, persistedBookVO.getPrice());
         assertTrue(persistedBookVO.getLaunchDate().isEqual(LocalDate.of(2021, 04, 15)));
@@ -118,8 +117,6 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-                .accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.header(TestsConstants.HEADER_PARAM_ORIGIN, TestsConstants.ORIGIN_APPLE)
 				.body(bookVO)
 				.when()
@@ -140,8 +137,6 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-                .accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.header(TestsConstants.HEADER_PARAM_ORIGIN, TestsConstants.ORIGIN_GOOGLE)
 				.pathParam("id", bookVO.getId())
 				.when()
@@ -163,8 +158,7 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedBookVO.getLaunchDate());
 
 		assertTrue(persistedBookVO.getId() > 0);
-		
-		assertEquals("O Código Da Vinci", persistedBookVO.getTitle());
+		assertEquals("O Codigo Da Vinci", persistedBookVO.getTitle());
 		assertEquals("Dan Brown", persistedBookVO.getAuthor());
 		assertEquals(35.46, persistedBookVO.getPrice());
         assertTrue(persistedBookVO.getLaunchDate().isEqual(LocalDate.of(2021, 04, 15)));
@@ -176,8 +170,6 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-                .accept(TestsConstants.CONTENT_TYPE_JSON)
-				.contentType(TestsConstants.CONTENT_TYPE_JSON)
 				.header(TestsConstants.HEADER_PARAM_ORIGIN, TestsConstants.ORIGIN_APPLE)
 				.pathParam("id", bookVO.getId())
 				.when()

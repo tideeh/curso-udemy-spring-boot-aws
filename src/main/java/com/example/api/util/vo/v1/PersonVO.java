@@ -7,6 +7,9 @@ import org.springframework.hateoas.RepresentationModel;
 import org.springframework.lang.Nullable;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import jakarta.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 @JsonPropertyOrder({"id", "firstName", "lastName", "gender", "addres"})
 public class PersonVO extends RepresentationModel<PersonVO> implements Serializable {
 

@@ -67,6 +67,7 @@ public class MockPerson {
         person.setId(number.longValue());
         person.setLastName("Last Name Test" + number);
         person.setBirthday(LocalDate.of(2000+number, 01, 25));
+        person.setEnabled(((number % 2)==0) ? true : false);
         return person;
     }
 
@@ -82,6 +83,7 @@ public class MockPerson {
         person.setId(number.longValue());
         person.setLastName("Last Name Test" + number);
         person.setBirthday(LocalDate.of(2000+number, 01, 25));
+        person.setEnabled(((number % 2)==0) ? true : false);
         return person;
     }
 

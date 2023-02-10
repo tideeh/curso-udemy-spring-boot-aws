@@ -53,8 +53,8 @@ public class MapperBookVoTest {
     @Test
     public void bookListToVOListTest() throws ParseException {
         List<BookVO> outputList = mapper.bookListToVOList(inputObject.mockEntityList());
+       
         BookVO outputZero = outputList.get(0);
-        
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("Author Test0", outputZero.getAuthor());
         assertTrue(outputZero.getLaunchDate().isEqual(LocalDate.of(1900, 01, 01)));
@@ -62,7 +62,6 @@ public class MapperBookVoTest {
         assertEquals("Title Test0", outputZero.getTitle());
         
         BookVO outputSeven = outputList.get(7);
-        
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("Author Test7", outputSeven.getAuthor());
         assertTrue(outputSeven.getLaunchDate().isEqual(LocalDate.of(1907, 01, 01)));
@@ -70,7 +69,6 @@ public class MapperBookVoTest {
         assertEquals("Title Test7", outputSeven.getTitle());
         
         BookVO outputTwelve = outputList.get(12);
-        
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("Author Test12", outputTwelve.getAuthor());
         assertTrue(outputTwelve.getLaunchDate().isEqual(LocalDate.of(1912, 01, 01)));
@@ -81,8 +79,8 @@ public class MapperBookVoTest {
     @Test
     public void VOListToBookListTest() throws ParseException {
         List<Book> outputList = mapper.VOListToBookList(inputObject.mockVOList());
-        Book outputZero = outputList.get(0);
         
+        Book outputZero = outputList.get(0);
         assertEquals(Long.valueOf(0L), outputZero.getId());
         assertEquals("Author Test0", outputZero.getAuthor());
         assertTrue(outputZero.getLaunchDate().isEqual(LocalDate.of(1900, 01, 01)));
@@ -90,7 +88,6 @@ public class MapperBookVoTest {
         assertEquals("Title Test0", outputZero.getTitle());
         
         Book outputSeven = outputList.get(7);
-        
         assertEquals(Long.valueOf(7L), outputSeven.getId());
         assertEquals("Author Test7", outputSeven.getAuthor());
         assertTrue(outputSeven.getLaunchDate().isEqual(LocalDate.of(1907, 01, 01)));
@@ -98,7 +95,6 @@ public class MapperBookVoTest {
         assertEquals("Title Test7", outputSeven.getTitle());
         
         Book outputTwelve = outputList.get(12);
-        
         assertEquals(Long.valueOf(12L), outputTwelve.getId());
         assertEquals("Author Test12", outputTwelve.getAuthor());
         assertTrue(outputTwelve.getLaunchDate().isEqual(LocalDate.of(1912, 01, 01)));

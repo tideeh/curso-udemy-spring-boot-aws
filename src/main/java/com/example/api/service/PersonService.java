@@ -18,6 +18,8 @@ import com.example.api.util.mapper.PersonMapper;
 import com.example.api.util.vo.v1.PersonVO;
 import com.example.api.util.vo.v2.PersonVOV2;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class PersonService {
 
@@ -175,6 +177,24 @@ public class PersonService {
             .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
         
         repository.delete(entity);
+    }
+
+    @Transactional // como a alteração no banco foi criada por nós, precisamos garantir o ACID com essa annotation
+    public PersonVOV2 disablePersonV2(Long id) throws Exception {
+        logger.info("Disabling the person");
+
+        repository.disablePerson(id);
+
+        var entity = repository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("No records found for this ID!"));
+        
+        PersonVOV2 vo = PersonMapper.INSTANCE.personToVOV2(entity);
+        
+        // Hateoas
+        Link link = linkTo(methodOn(PersonController.class).findByIdV2(id)).withSelfRel();
+        vo.add(link);
+        
+        return vo;
     }
     
 }
