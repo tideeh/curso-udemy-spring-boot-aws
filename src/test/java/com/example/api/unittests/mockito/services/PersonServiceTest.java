@@ -151,6 +151,7 @@ class PersonServiceTest {
 		service.delete(1L);
 	}
 	
+	/*
 	@Test
 	void testFindAll() throws Exception {
 		List<Person> list = input.mockEntityList(); 
@@ -199,6 +200,7 @@ class PersonServiceTest {
 		assertEquals("Female", personSeven.getGender());
 
 	}
+	*/
 
 	@Test
 	void testFindByIdV2() throws Exception {

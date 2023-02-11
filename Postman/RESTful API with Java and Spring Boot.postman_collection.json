@@ -35,7 +35,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/person/v2",
+									"raw": "{{baseUrl}}/api/person/v2?page=100&size=5&direction=asc",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -43,6 +43,20 @@
 										"api",
 										"person",
 										"v2"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "100"
+										},
+										{
+											"key": "size",
+											"value": "5"
+										},
+										{
+											"key": "direction",
+											"value": "asc"
+										}
 									]
 								},
 								"description": "Finds all People - v2"
@@ -1352,6 +1366,316 @@
 									"body": ""
 								}
 							]
+						},
+						{
+							"name": "Find Persons by Name",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{accessToken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/person/v2/search/ie?page=5&size=10&direction=desc",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"person",
+										"v2",
+										"search",
+										"ie"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "5"
+										},
+										{
+											"key": "size",
+											"value": "10"
+										},
+										{
+											"key": "direction",
+											"value": "desc"
+										}
+									]
+								},
+								"description": "Find Persons by Name - v2"
+							},
+							"response": [
+								{
+									"name": "Success",
+									"originalRequest": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{accessToken}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/person/v2/search/ie?page=5&size=10&direction=desc",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"person",
+												"v2",
+												"search",
+												"ie"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "5"
+												},
+												{
+													"key": "size",
+													"value": "10"
+												},
+												{
+													"key": "direction",
+													"value": "desc"
+												}
+											]
+										},
+										"description": "Find Persons by Name - v2"
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Bad Request",
+									"originalRequest": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{accessToken}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/person/v2/search/ie?page=5&size=10&direction=desc",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"person",
+												"v2",
+												"search",
+												"ie"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "5"
+												},
+												{
+													"key": "size",
+													"value": "10"
+												},
+												{
+													"key": "direction",
+													"value": "desc"
+												}
+											]
+										},
+										"description": "Find Persons by Name - v2"
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Unauthorized",
+									"originalRequest": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{accessToken}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/person/v2/search/ie?page=5&size=10&direction=desc",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"person",
+												"v2",
+												"search",
+												"ie"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "5"
+												},
+												{
+													"key": "size",
+													"value": "10"
+												},
+												{
+													"key": "direction",
+													"value": "desc"
+												}
+											]
+										},
+										"description": "Find Persons by Name - v2"
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Not Found",
+									"originalRequest": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{accessToken}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/person/v2/search/ie?page=5&size=10&direction=desc",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"person",
+												"v2",
+												"search",
+												"ie"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "5"
+												},
+												{
+													"key": "size",
+													"value": "10"
+												},
+												{
+													"key": "direction",
+													"value": "desc"
+												}
+											]
+										},
+										"description": "Find Persons by Name - v2"
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								},
+								{
+									"name": "Internal Errorr",
+									"originalRequest": {
+										"auth": {
+											"type": "noauth"
+										},
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											},
+											{
+												"key": "Authorization",
+												"value": "Bearer {{accessToken}}",
+												"type": "text"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/person/v2/search/ie?page=5&size=10&direction=desc",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"person",
+												"v2",
+												"search",
+												"ie"
+											],
+											"query": [
+												{
+													"key": "page",
+													"value": "5"
+												},
+												{
+													"key": "size",
+													"value": "10"
+												},
+												{
+													"key": "direction",
+													"value": "desc"
+												}
+											]
+										},
+										"description": "Find Persons by Name - v2"
+									},
+									"_postman_previewlanguage": null,
+									"header": null,
+									"cookie": [],
+									"body": null
+								}
+							]
 						}
 					]
 				},
@@ -2452,7 +2776,7 @@
 						"header": [
 							{
 								"key": "Accept",
-								"value": "application/x-yaml"
+								"value": "application/json"
 							},
 							{
 								"key": "Authorization",
@@ -2461,7 +2785,7 @@
 							}
 						],
 						"url": {
-							"raw": "{{baseUrl}}/api/book/v1",
+							"raw": "{{baseUrl}}/api/book/v1?page=0&size=10&direction=asc",
 							"host": [
 								"{{baseUrl}}"
 							],
@@ -2469,6 +2793,20 @@
 								"api",
 								"book",
 								"v1"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "10"
+								},
+								{
+									"key": "direction",
+									"value": "asc"
+								}
 							]
 						},
 						"description": "Finds all Books - v1"

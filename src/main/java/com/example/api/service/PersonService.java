@@ -1,6 +1,5 @@
 package com.example.api.service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +30,10 @@ public class PersonService {
     PersonRepository repository;
     
     @Autowired
-    PagedResourcesAssembler<PersonVOV2> assembler;
+    PagedResourcesAssembler<PersonVO> assemblerVO;
+
+    @Autowired
+    PagedResourcesAssembler<PersonVOV2> assemblerVOV2;
 
     private Logger logger = Logger.getLogger(PersonService.class.getName());
 
@@ -65,18 +67,31 @@ public class PersonService {
         return vo;
     }
 
-    public List<PersonVO> findAll() throws Exception {
+    public PagedModel<EntityModel<PersonVO>> findAll(Pageable pageable) throws Exception {
         logger.info("Find all Persons - V1");
 
-        List<PersonVO> voList = PersonMapper.INSTANCE.personListToVOList(repository.findAll());
+        var page = repository.findAll(pageable);
+
+        var voPage = page.map(p -> PersonMapper.INSTANCE.personToVO(p));
 
         // Hateoas
-        for (PersonVO vo : voList) {
-            Link link = linkTo(methodOn(PersonController.class).findById(vo.getId())).withSelfRel();
-            vo.add(link);
-        }
-
-        return voList;
+        voPage.map(
+            p -> {
+                try {
+                    return p.add(linkTo(methodOn(PersonController.class).findById(p.getId())).withSelfRel());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return p;
+            }
+        );
+        Link link = linkTo(
+            methodOn(PersonController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString().toLowerCase().endsWith("desc") ? "desc" : "asc")
+        ).withSelfRel();
+        
+        return assemblerVO.toModel(voPage, link);
     }
 
     public PagedModel<EntityModel<PersonVOV2>> findAllV2(Pageable pageable) throws Exception {
@@ -103,7 +118,34 @@ public class PersonService {
                 .findAllV2(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString().toLowerCase().endsWith("desc") ? "desc" : "asc")
         ).withSelfRel();
         
-        return assembler.toModel(voPage, link);
+        return assemblerVOV2.toModel(voPage, link);
+    }
+
+    public PagedModel<EntityModel<PersonVOV2>> findPersonsByName(String firstName, Pageable pageable) throws Exception {
+        logger.info("Find Persons by Name - V2");
+
+        var page = repository.findPersonsByName(firstName, pageable);
+
+        var voPage = page.map(p -> PersonMapper.INSTANCE.personToVOV2(p));
+
+        // Hateoas
+        voPage.map(
+            p -> {
+                try {
+                    return p.add(linkTo(methodOn(PersonController.class).findByIdV2(p.getId())).withSelfRel());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return p;
+            }
+        );
+        Link link = linkTo(
+            methodOn(PersonController.class)
+                .findAllV2(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString().toLowerCase().endsWith("desc") ? "desc" : "asc")
+        ).withSelfRel();
+        
+        return assemblerVOV2.toModel(voPage, link);
     }
 
     public PersonVO create(PersonVO personVO) throws Exception {
