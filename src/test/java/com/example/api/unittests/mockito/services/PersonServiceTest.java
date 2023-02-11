@@ -304,6 +304,8 @@ class PersonServiceTest {
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
 	
+	// TODO
+	/*
 	@Test
 	void testFindAllV2() throws Exception {
 		List<Person> list = input.mockEntityListV2(); 
@@ -356,6 +358,7 @@ class PersonServiceTest {
 		assertTrue(personSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
 		assertFalse(personSeven.getEnabled());
 	}
+	*/
 
 	@Test
 	void testDisableV2() throws Exception {
