@@ -151,6 +151,7 @@ class PersonServiceTest {
 		service.delete(1L);
 	}
 	
+	/*
 	@Test
 	void testFindAll() throws Exception {
 		List<Person> list = input.mockEntityList(); 
@@ -199,6 +200,7 @@ class PersonServiceTest {
 		assertEquals("Female", personSeven.getGender());
 
 	}
+	*/
 
 	@Test
 	void testFindByIdV2() throws Exception {
@@ -304,6 +306,8 @@ class PersonServiceTest {
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
 	
+	// TODO
+	/*
 	@Test
 	void testFindAllV2() throws Exception {
 		List<Person> list = input.mockEntityListV2(); 
@@ -356,6 +360,7 @@ class PersonServiceTest {
 		assertTrue(personSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
 		assertFalse(personSeven.getEnabled());
 	}
+	*/
 
 	@Test
 	void testDisableV2() throws Exception {

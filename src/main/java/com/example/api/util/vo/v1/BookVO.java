@@ -16,7 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
-@JsonPropertyOrder({"id", "author", "launchDate", "price","title"})
+@JsonPropertyOrder({"id", "author", "title", "price", "launchDate"})
 public class BookVO extends RepresentationModel<BookVO> implements Serializable {
 
     private static final long serialVersionUID = 1L;

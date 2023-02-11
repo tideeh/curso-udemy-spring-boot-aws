@@ -1,10 +1,13 @@
 package com.example.api.service;
 
-import java.util.List;
 import java.util.logging.Logger;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PagedResourcesAssembler;
+import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.Link;
+import org.springframework.hateoas.PagedModel;
 import org.springframework.stereotype.Service;
 
 import com.example.api.controller.BookController;
@@ -23,6 +26,9 @@ public class BookService {
     @Autowired
     BookRepository repository;
 
+    @Autowired
+    PagedResourcesAssembler<BookVO> assembler;
+
     private Logger logger = Logger.getLogger(BookService.class.getName());
 
     public BookVO findById(Long id) throws Exception {
@@ -40,18 +46,31 @@ public class BookService {
         return vo;
     }
 
-    public List<BookVO> findAll() throws Exception {
-        logger.info("Find all Books - V1");
+    public PagedModel<EntityModel<BookVO>> findAll(Pageable pageable) throws Exception {
+        logger.info("Find all Books");
 
-        List<BookVO> voList = BookMapper.INSTANCE.bookListToVOList(repository.findAll());
+        var page = repository.findAll(pageable);
+
+        var voPage = page.map(p -> BookMapper.INSTANCE.bookToVO(p));
 
         // Hateoas
-        for (BookVO vo : voList) {
-            Link link = linkTo(methodOn(BookController.class).findById(vo.getId())).withSelfRel();
-            vo.add(link);
-        }
-
-        return voList;
+        voPage.map(
+            p -> {
+                try {
+                    return p.add(linkTo(methodOn(BookController.class).findById(p.getId())).withSelfRel());
+                } catch (Exception e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+                return p;
+            }
+        );
+        Link link = linkTo(
+            methodOn(BookController.class)
+                .findAll(pageable.getPageNumber(), pageable.getPageSize(), pageable.getSort().toString().toLowerCase().endsWith("desc") ? "desc" : "asc")
+        ).withSelfRel();
+        
+        return assembler.toModel(voPage, link);
     }
 
     public BookVO create(BookVO bookVO) throws Exception {
