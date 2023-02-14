@@ -11,7 +11,7 @@ public class EmbeddedBookVO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("books")
+    @JsonProperty("content")
     private List<BookVO> voList;
 
     public EmbeddedBookVO() {}

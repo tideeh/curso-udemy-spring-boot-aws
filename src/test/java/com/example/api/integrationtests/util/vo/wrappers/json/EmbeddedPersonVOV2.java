@@ -11,7 +11,7 @@ public class EmbeddedPersonVOV2 implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @JsonProperty("people")
+    @JsonProperty("content")
     private List<PersonVOV2> voV2List;
 
     public EmbeddedPersonVOV2() {}
