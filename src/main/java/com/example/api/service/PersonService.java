@@ -121,7 +121,7 @@ public class PersonService {
         return assemblerVOV2.toModel(voPage, link);
     }
 
-    public PagedModel<EntityModel<PersonVOV2>> findPersonsByName(String firstName, Pageable pageable) throws Exception {
+    public PagedModel<EntityModel<PersonVOV2>> findPersonsByNameV2(String firstName, Pageable pageable) throws Exception {
         logger.info("Find Persons by Name - V2");
 
         var page = repository.findPersonsByName(firstName, pageable);

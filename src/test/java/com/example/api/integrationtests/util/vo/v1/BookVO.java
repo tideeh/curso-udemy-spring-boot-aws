@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+import org.springframework.hateoas.server.core.Relation;
 import org.springframework.lang.Nullable;
 
 import com.example.api.integrationtests.util.LocalDateXmlAdapter;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+@Relation(collectionRelation = "books", itemRelation = "book")
 @XmlRootElement
 public class BookVO implements Serializable {
     

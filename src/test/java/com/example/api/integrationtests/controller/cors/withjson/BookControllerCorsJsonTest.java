@@ -184,4 +184,17 @@ public class BookControllerCorsJsonTest extends AbstractIntegrationTest {
 		assertEquals("Invalid CORS request", content);
 	}
 
+	@Test
+	@Order(5)
+	public void testDelete() throws JsonMappingException, JsonProcessingException {
+		given()
+			.spec(specification)
+			.header(TestsConstants.HEADER_PARAM_ORIGIN, TestsConstants.ORIGIN_GOOGLE)
+			.pathParam("id", bookVO.getId())
+			.when()
+				.delete("{id}")
+			.then()
+				.statusCode(204);
+	}
+
 }

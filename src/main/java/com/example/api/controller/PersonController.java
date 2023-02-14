@@ -337,7 +337,7 @@ public class PersonController {
             ),
         }
     )
-    public ResponseEntity<PagedModel<EntityModel<PersonVOV2>>> findPersonsByName(
+    public ResponseEntity<PagedModel<EntityModel<PersonVOV2>>> findPersonsByNameV2(
                 @PathVariable(value = "firstName") String firstName,
                 @RequestParam(value = "page", defaultValue = "0") Integer page,
                 @RequestParam(value = "size", defaultValue = "12") Integer size,
@@ -347,7 +347,7 @@ public class PersonController {
         var sortDirection = "desc".equalsIgnoreCase(direction) ? Direction.DESC : Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, Sort.by(sortDirection, "firstName"));
 
-        return ResponseEntity.ok(service.findPersonsByName(firstName, pageable));
+        return ResponseEntity.ok(service.findPersonsByNameV2(firstName, pageable));
     }
 
     @GetMapping(

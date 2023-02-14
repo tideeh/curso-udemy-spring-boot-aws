@@ -5,7 +5,6 @@ import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -148,56 +147,5 @@ class BookServiceTest {
 		
 		service.delete(1L);
 	}
-	
-	// TODO
-	/*
-	@Test
-	void testFindAll() throws Exception {
-		List<Book> list = input.mockEntityList(); 
-		
-		when(repository.findAll()).thenReturn(list);
-		
-		var books = service.findAll();
-		
-		assertNotNull(books);
-		assertEquals(14, books.size());
-		
-		var bookOne = books.get(1);
-		
-		assertNotNull(bookOne);
-		assertNotNull(bookOne.getId());
-		assertNotNull(bookOne.getLinks());
-		
-		assertTrue(bookOne.toString().contains("links: [</api/book/v1/1>;rel=\"self\"]"));
-		assertEquals("Author Test1", bookOne.getAuthor());
-		assertTrue(bookOne.getLaunchDate().isEqual(LocalDate.of(1901, 01, 01)));
-		assertEquals(101.00, bookOne.getPrice());
-		assertEquals("Title Test1", bookOne.getTitle());
-		
-		var bookFour = books.get(4);
-		
-		assertNotNull(bookFour);
-		assertNotNull(bookFour.getId());
-		assertNotNull(bookFour.getLinks());
-		
-		assertTrue(bookFour.toString().contains("links: [</api/book/v1/4>;rel=\"self\"]"));
-		assertEquals("Author Test4", bookFour.getAuthor());
-		assertTrue(bookFour.getLaunchDate().isEqual(LocalDate.of(1904, 01, 01)));
-		assertEquals(104.00, bookFour.getPrice());
-		assertEquals("Title Test4", bookFour.getTitle());
-		
-		var bookSeven = books.get(7);
-		
-		assertNotNull(bookSeven);
-		assertNotNull(bookSeven.getId());
-		assertNotNull(bookSeven.getLinks());
-		
-		assertTrue(bookSeven.toString().contains("links: [</api/book/v1/7>;rel=\"self\"]"));
-		assertEquals("Author Test7", bookSeven.getAuthor());
-		assertTrue(bookSeven.getLaunchDate().isEqual(LocalDate.of(1907, 01, 01)));
-		assertEquals(107.00, bookSeven.getPrice());
-		assertEquals("Title Test7", bookSeven.getTitle());
-	}
-	*/
 
 }

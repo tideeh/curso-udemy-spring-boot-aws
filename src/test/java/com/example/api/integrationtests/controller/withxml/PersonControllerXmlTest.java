@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,8 +18,9 @@ import com.example.api.integrationtests.util.mock.MockPerson;
 import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO;
 import com.example.api.integrationtests.util.vo.v1.PersonVO;
 import com.example.api.integrationtests.util.vo.v2.PersonVOV2;
+import com.example.api.integrationtests.util.vo.wrappers.xmlyaml.WrapperXmlYamlPersonVO;
+import com.example.api.integrationtests.util.vo.wrappers.xmlyaml.WrapperXmlYamlPersonVOV2;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
@@ -205,6 +204,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -213,7 +213,8 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<PersonVO> listVO = xmlMapper.readValue(content, new TypeReference<List<PersonVO>>() {});
+		WrapperXmlYamlPersonVO wrapper = xmlMapper.readValue(content, WrapperXmlYamlPersonVO.class);
+		var listVO = wrapper.getContent();
 
 		PersonVO elementOne = listVO.get(0);
 
@@ -224,10 +225,10 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 		assertNotNull(elementOne.getAddres());
 		assertNotNull(elementOne.getGender());
 
-		assertEquals(1, elementOne.getId());
-		assertEquals("XIIIIIUY", elementOne.getFirstName());
-		assertEquals("Caiuuuuuuuuu", elementOne.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddres());
+		assertEquals(125, elementOne.getId());
+		assertEquals("Rinaldo", elementOne.getFirstName());
+		assertEquals("Chippindale", elementOne.getLastName());
+		assertEquals("57 Magdeline Plaza", elementOne.getAddres());
 		assertEquals("Male", elementOne.getGender());
 
 		PersonVO elementSix = listVO.get(5);
@@ -239,11 +240,11 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 		assertNotNull(elementSix.getAddres());
 		assertNotNull(elementSix.getGender());
 
-		assertEquals(9, elementSix.getId());
-		assertEquals("Nelson", elementSix.getFirstName());
-		assertEquals("Mandela", elementSix.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementSix.getAddres());
-		assertEquals("Male", elementSix.getGender());
+		assertEquals(928, elementSix.getId());
+		assertEquals("Rhea", elementSix.getFirstName());
+		assertEquals("Milham", elementSix.getLastName());
+		assertEquals("420 Fair Oaks Road", elementSix.getAddres());
+		assertEquals("Female", elementSix.getGender());
 	}
 
 	@Test
@@ -427,6 +428,7 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -435,7 +437,8 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<PersonVOV2> listVOV2 = xmlMapper.readValue(content, new TypeReference<List<PersonVOV2>>() {});
+		WrapperXmlYamlPersonVOV2 wrapper = xmlMapper.readValue(content, WrapperXmlYamlPersonVOV2.class);
+		var listVOV2 = wrapper.getContent();
 
 		PersonVOV2 elementOne = listVOV2.get(0);
 
@@ -448,13 +451,13 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 		assertNotNull(elementOne.getBirthday());
 		assertNotNull(elementOne.getEnabled());
 
-		assertEquals(1, elementOne.getId());
-		assertEquals("XIIIIIUY", elementOne.getFirstName());
-		assertEquals("Caiuuuuuuuuu", elementOne.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddress());
+		assertEquals(125, elementOne.getId());
+		assertEquals("Rinaldo", elementOne.getFirstName());
+		assertEquals("Chippindale", elementOne.getLastName());
+		assertEquals("57 Magdeline Plaza", elementOne.getAddress());
 		assertEquals("Male", elementOne.getGender());
-		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1991, 01, 20)));
-		assertTrue(elementOne.getEnabled());
+		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1989, 12, 31)));
+		assertFalse(elementOne.getEnabled());
 
 		PersonVOV2 elementSix = listVOV2.get(5);
 
@@ -467,17 +470,75 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 		assertNotNull(elementSix.getBirthday());
 		assertNotNull(elementSix.getEnabled());
 
-		assertEquals(9, elementSix.getId());
-		assertEquals("Nelson", elementSix.getFirstName());
-		assertEquals("Mandela", elementSix.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementSix.getAddress());
-		assertEquals("Male", elementSix.getGender());
-		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1999, 01, 20)));
-		assertTrue(elementSix.getEnabled());
+		assertEquals(928, elementSix.getId());
+		assertEquals("Rhea", elementSix.getFirstName());
+		assertEquals("Milham", elementSix.getLastName());
+		assertEquals("420 Fair Oaks Road", elementSix.getAddress());
+		assertEquals("Female", elementSix.getGender());
+		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1999, 01, 04)));
+		assertFalse(elementSix.getEnabled());
 	}
 
 	@Test
 	@Order(13)
+	public void testFindByNameV2() throws JsonMappingException, JsonProcessingException {
+		var content = 
+			given()
+				.spec(specificationV2)
+				.pathParam("firstName", "ey")
+				.queryParams("page", 0, "size", 6, "direction", "asc")
+				.when()
+					.get("search/{firstName}")
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();
+
+		WrapperXmlYamlPersonVOV2 wrapper = xmlMapper.readValue(content, WrapperXmlYamlPersonVOV2.class);
+		var listVOV2 = wrapper.getContent();
+
+		PersonVOV2 elementOne = listVOV2.get(0);
+
+		assertNotNull(elementOne);
+		assertNotNull(elementOne.getId());
+		assertNotNull(elementOne.getFirstName());
+		assertNotNull(elementOne.getLastName());
+		assertNotNull(elementOne.getAddress());
+		assertNotNull(elementOne.getGender());
+		assertNotNull(elementOne.getBirthday());
+		assertNotNull(elementOne.getEnabled());
+
+		assertEquals(283, elementOne.getId());
+		assertEquals("Ailey", elementOne.getFirstName());
+		assertEquals("Higgoe", elementOne.getLastName());
+		assertEquals("089 Dennis Place", elementOne.getAddress());
+		assertEquals("Female", elementOne.getGender());
+		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1951, 04, 27)));
+		assertFalse(elementOne.getEnabled());
+
+		PersonVOV2 elementSix = listVOV2.get(5);
+
+		assertNotNull(elementSix);
+		assertNotNull(elementSix.getId());
+		assertNotNull(elementSix.getFirstName());
+		assertNotNull(elementSix.getLastName());
+		assertNotNull(elementSix.getAddress());
+		assertNotNull(elementSix.getGender());
+		assertNotNull(elementSix.getBirthday());
+		assertNotNull(elementSix.getEnabled());
+
+		assertEquals(920, elementSix.getId());
+		assertEquals("Davey", elementSix.getFirstName());
+		assertEquals("Rucklidge", elementSix.getLastName());
+		assertEquals("972 Kingsford Crossing", elementSix.getAddress());
+		assertEquals("Male", elementSix.getGender());
+		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1964, 10, 13)));
+		assertTrue(elementSix.getEnabled());
+	}
+
+	@Test
+	@Order(14)
 	public void testFindAllV2WithoutToken() throws JsonMappingException, JsonProcessingException {
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_XML)
@@ -494,6 +555,32 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 				.get()
 			.then()
 				.statusCode(403);
+	}
+
+	@Test
+	@Order(15)
+	public void testHateoas() throws JsonMappingException, JsonProcessingException {
+		var content = 
+			given()
+				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
+				.when()
+					.get()
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();
+
+		assertTrue(content.contains("<links><rel>self</rel><href>http://localhost:8888/api/person/v1/125</href></links>"));
+
+		assertTrue(content.contains("<links><rel>first</rel><href>http://localhost:8888/api/person/v1?direction=desc&amp;page=0&amp;size=10&amp;sort=firstName,desc</href></links>"));
+		assertTrue(content.contains("<links><rel>prev</rel><href>http://localhost:8888/api/person/v1?direction=desc&amp;page=19&amp;size=10&amp;sort=firstName,desc</href></links>"));
+		assertTrue(content.contains("<links><rel>self</rel><href>http://localhost:8888/api/person/v1?page=20&amp;size=10&amp;direction=desc</href></links>"));
+		assertTrue(content.contains("<links><rel>next</rel><href>http://localhost:8888/api/person/v1?direction=desc&amp;page=21&amp;size=10&amp;sort=firstName,desc</href></links>"));
+		assertTrue(content.contains("<links><rel>last</rel><href>http://localhost:8888/api/person/v1?direction=desc&amp;page=100&amp;size=10&amp;sort=firstName,desc</href></links>"));
+
+		assertTrue(content.contains("<page><size>10</size><totalElements>1007</totalElements><totalPages>101</totalPages><number>20</number></page>"));
 	}
 
 }

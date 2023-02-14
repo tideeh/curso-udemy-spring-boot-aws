@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -15,6 +16,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+@Relation(collectionRelation = "content")
 @XmlRootElement
 @JsonPropertyOrder({"id", "author", "title", "price", "launchDate"})
 public class BookVO extends RepresentationModel<BookVO> implements Serializable {

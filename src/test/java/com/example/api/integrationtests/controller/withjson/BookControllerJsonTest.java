@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -20,8 +18,8 @@ import com.example.api.integrationtests.util.mock.MockBook;
 import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO;
 import com.example.api.integrationtests.util.vo.v1.BookVO;
 import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
+import com.example.api.integrationtests.util.vo.wrappers.json.WrapperJsonBookVO;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -194,6 +192,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -202,9 +201,10 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<BookVO> listBookVO = objectMapper.readValue(content, new TypeReference<List<BookVO>>() {});
+		WrapperJsonBookVO wrapper = objectMapper.readValue(content, WrapperJsonBookVO.class);
+		var listVO = wrapper.getEmbedded().getContent();
 
-		BookVO foundBookOne = listBookVO.get(0);
+		BookVO foundBookOne = listVO.get(0);
 
 		assertNotNull(foundBookOne);
 		assertNotNull(foundBookOne.getId());
@@ -213,13 +213,13 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(foundBookOne.getPrice());
 		assertNotNull(foundBookOne.getLaunchDate());
 
-		assertEquals(1, foundBookOne.getId());
-		assertEquals("Working effectively with legacy code", foundBookOne.getTitle());
-		assertEquals("Michael C. Feathers", foundBookOne.getAuthor());
-		assertEquals(49.00, foundBookOne.getPrice());
-		assertTrue(foundBookOne.getLaunchDate().isEqual(LocalDate.of(2017, 11, 29)));
-		
-		BookVO foundBookSix = listBookVO.get(5);
+		assertEquals(278, foundBookOne.getId());
+		assertEquals("Fan, The", foundBookOne.getTitle());
+		assertEquals("Robinette Ewings", foundBookOne.getAuthor());
+		assertEquals(54.14, foundBookOne.getPrice());
+		assertTrue(foundBookOne.getLaunchDate().isEqual(LocalDate.of(1975, 02, 28)));
+
+		BookVO foundBookSix = listVO.get(5);
 
 		assertNotNull(foundBookSix);
 		assertNotNull(foundBookSix.getId());
@@ -228,11 +228,11 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(foundBookSix.getPrice());
 		assertNotNull(foundBookSix.getLaunchDate());
 
-		assertEquals(6, foundBookSix.getId());
-		assertEquals("Refactoring", foundBookSix.getTitle());
-		assertEquals("Martin Fowler e Kent Beck", foundBookSix.getAuthor());
-		assertEquals(88.00, foundBookSix.getPrice());
-		assertTrue(foundBookSix.getLaunchDate().isEqual(LocalDate.of(2017, 11, 07)));
+		assertEquals(28, foundBookSix.getId());
+		assertEquals("Ocean's Thirteen", foundBookSix.getTitle());
+		assertEquals("Ricki Siddele", foundBookSix.getAuthor());
+		assertEquals(42.54, foundBookSix.getPrice());
+		assertTrue(foundBookSix.getLaunchDate().isEqual(LocalDate.of(2006, 02, 13)));
 	}
 
 	@Test
@@ -253,6 +253,32 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 				.get()
 			.then()
 				.statusCode(403);
+	}
+
+	@Test
+	@Order(7)
+	public void testHateoas() throws JsonMappingException, JsonProcessingException {
+		var content = 
+			given()
+				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
+				.when()
+					.get()
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();
+
+		assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8888/api/book/v1/278\"}}"));
+
+		assertTrue(content.contains("\"first\":{\"href\":\"http://localhost:8888/api/book/v1?direction=desc&page=0&size=10&sort=author,desc\"}"));
+		assertTrue(content.contains("\"prev\":{\"href\":\"http://localhost:8888/api/book/v1?direction=desc&page=19&size=10&sort=author,desc\"}"));
+		assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8888/api/book/v1?page=20&size=10&direction=desc\"}"));
+		assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8888/api/book/v1?direction=desc&page=21&size=10&sort=author,desc\"}"));
+		assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8888/api/book/v1?direction=desc&page=101&size=10&sort=author,desc\"}"));
+
+		assertTrue(content.contains("\"page\":{\"size\":10,\"totalElements\":1015,\"totalPages\":102,\"number\":20}"));
 	}
 
 }
