@@ -3,10 +3,12 @@ package com.example.api.integrationtests.util.vo.v1;
 import java.io.Serializable;
 import java.util.Objects;
 
+import org.springframework.hateoas.server.core.Relation;
 import org.springframework.lang.Nullable;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+@Relation(collectionRelation = "people", itemRelation = "person")
 @XmlRootElement
 public class PersonVO implements Serializable {
 

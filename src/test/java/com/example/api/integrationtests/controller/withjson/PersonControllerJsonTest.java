@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -21,8 +19,9 @@ import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO
 import com.example.api.integrationtests.util.vo.v1.PersonVO;
 import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
 import com.example.api.integrationtests.util.vo.v2.PersonVOV2;
+import com.example.api.integrationtests.util.vo.wrappers.json.WrapperJsonPersonVO;
+import com.example.api.integrationtests.util.vo.wrappers.json.WrapperJsonPersonVOV2;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -207,6 +206,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -215,9 +215,10 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<PersonVO> listPersonVO = objectMapper.readValue(content, new TypeReference<List<PersonVO>>() {});
+		WrapperJsonPersonVO wrapper = objectMapper.readValue(content, WrapperJsonPersonVO.class);
+		var listVO = wrapper.getEmbedded().getVoList();
 
-		PersonVO elementOne = listPersonVO.get(0);
+		PersonVO elementOne = listVO.get(0);
 
 		assertNotNull(elementOne);
 		assertNotNull(elementOne.getId());
@@ -226,13 +227,13 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(elementOne.getAddres());
 		assertNotNull(elementOne.getGender());
 
-		assertEquals(1, elementOne.getId());
-		assertEquals("XIIIIIUY", elementOne.getFirstName());
-		assertEquals("Caiuuuuuuuuu", elementOne.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddres());
+		assertEquals(125, elementOne.getId());
+		assertEquals("Rinaldo", elementOne.getFirstName());
+		assertEquals("Chippindale", elementOne.getLastName());
+		assertEquals("57 Magdeline Plaza", elementOne.getAddres());
 		assertEquals("Male", elementOne.getGender());
 
-		PersonVO elementSix = listPersonVO.get(5);
+		PersonVO elementSix = listVO.get(5);
 
 		assertNotNull(elementSix);
 		assertNotNull(elementSix.getId());
@@ -241,11 +242,11 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(elementSix.getAddres());
 		assertNotNull(elementSix.getGender());
 
-		assertEquals(9, elementSix.getId());
-		assertEquals("Nelson", elementSix.getFirstName());
-		assertEquals("Mandela", elementSix.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementSix.getAddres());
-		assertEquals("Male", elementSix.getGender());
+		assertEquals(928, elementSix.getId());
+		assertEquals("Rhea", elementSix.getFirstName());
+		assertEquals("Milham", elementSix.getLastName());
+		assertEquals("420 Fair Oaks Road", elementSix.getAddres());
+		assertEquals("Female", elementSix.getGender());
 	}
 
 	@Test
@@ -429,6 +430,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -437,7 +439,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
-		List<PersonVOV2> listVOV2 = objectMapper.readValue(content, new TypeReference<List<PersonVOV2>>() {});
+		WrapperJsonPersonVOV2 wrapper = objectMapper.readValue(content, WrapperJsonPersonVOV2.class);
+		var listVOV2 = wrapper.getEmbedded().getVoV2List();
 
 		PersonVOV2 elementOne = listVOV2.get(0);
 
@@ -450,13 +453,13 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(elementOne.getBirthday());
 		assertNotNull(elementOne.getEnabled());
 
-		assertEquals(1, elementOne.getId());
-		assertEquals("XIIIIIUY", elementOne.getFirstName());
-		assertEquals("Caiuuuuuuuuu", elementOne.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddress());
+		assertEquals(125, elementOne.getId());
+		assertEquals("Rinaldo", elementOne.getFirstName());
+		assertEquals("Chippindale", elementOne.getLastName());
+		assertEquals("57 Magdeline Plaza", elementOne.getAddress());
 		assertEquals("Male", elementOne.getGender());
-		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1991, 01, 20)));
-		assertTrue(elementOne.getEnabled());
+		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1989, 12, 31)));
+		assertFalse(elementOne.getEnabled());
 
 		PersonVOV2 elementSix = listVOV2.get(5);
 
@@ -469,13 +472,13 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(elementSix.getBirthday());
 		assertNotNull(elementSix.getEnabled());
 
-		assertEquals(9, elementSix.getId());
-		assertEquals("Nelson", elementSix.getFirstName());
-		assertEquals("Mandela", elementSix.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementSix.getAddress());
-		assertEquals("Male", elementSix.getGender());
-		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1999, 01, 20)));
-		assertTrue(elementSix.getEnabled());
+		assertEquals(928, elementSix.getId());
+		assertEquals("Rhea", elementSix.getFirstName());
+		assertEquals("Milham", elementSix.getLastName());
+		assertEquals("420 Fair Oaks Road", elementSix.getAddress());
+		assertEquals("Female", elementSix.getGender());
+		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1999, 01, 04)));
+		assertFalse(elementSix.getEnabled());
 	}
 
 	@Test

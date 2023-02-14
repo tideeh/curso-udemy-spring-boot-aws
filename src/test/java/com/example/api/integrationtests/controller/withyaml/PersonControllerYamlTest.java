@@ -5,8 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.text.ParseException;
 import java.time.LocalDate;
-import java.util.List;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
@@ -21,8 +19,9 @@ import com.example.api.integrationtests.util.vo.v1.security.AccountCredentialsVO
 import com.example.api.integrationtests.util.vo.v1.PersonVO;
 import com.example.api.integrationtests.util.vo.v1.security.TokenVO;
 import com.example.api.integrationtests.util.vo.v2.PersonVOV2;
+import com.example.api.integrationtests.util.vo.wrappers.xmlyaml.WrapperXmlYamlPersonVO;
+import com.example.api.integrationtests.util.vo.wrappers.xmlyaml.WrapperXmlYamlPersonVOV2;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,6 +84,8 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		
 		specification = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_AUTHORIZATION, "Bearer "+tokenVO.getAccessToken())
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_YML)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_YML)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -93,6 +94,8 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 
 		specificationV2 = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_AUTHORIZATION, "Bearer "+tokenVO.getAccessToken())
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_YML)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_YML)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -109,8 +112,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 					.encoderConfig(EncoderConfig.encoderConfig()
 						.encodeContentTypeAs(TestsConstants.CONTENT_TYPE_YML, ContentType.TEXT)))
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.body(ymlMapper.writeValueAsString(vo))
 				.when()
 					.post()
@@ -148,8 +149,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 					.encoderConfig(EncoderConfig.encoderConfig()
 						.encodeContentTypeAs(TestsConstants.CONTENT_TYPE_YML, ContentType.TEXT)))
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.body(ymlMapper.writeValueAsString(vo))
 				.when()
 					.put()
@@ -181,8 +180,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.pathParam("id", vo.getId())
 				.when()
 					.get("{id}")
@@ -213,8 +210,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 	public void testDelete() throws JsonMappingException, JsonProcessingException {
 		given()
 			.spec(specification)
-			.accept(TestsConstants.CONTENT_TYPE_YML)
-			.contentType(TestsConstants.CONTENT_TYPE_YML)
 			.pathParam("id", vo.getId())
 			.when()
 				.delete("{id}")
@@ -228,8 +223,7 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		var content =
 			given()
 				.spec(specification)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -238,7 +232,8 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 					.body()
 					.asString();
 		
-		List<PersonVO> listVO = ymlMapper.readValue(content, new TypeReference<List<PersonVO>>() {});
+		WrapperXmlYamlPersonVO wrapper = ymlMapper.readValue(content, WrapperXmlYamlPersonVO.class);
+		var listVO = wrapper.getContent();
 
 		PersonVO elementOne = listVO.get(0);
 
@@ -249,10 +244,10 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		assertNotNull(elementOne.getAddres());
 		assertNotNull(elementOne.getGender());
 
-		assertEquals(1, elementOne.getId());
-		assertEquals("XIIIIIUY", elementOne.getFirstName());
-		assertEquals("Caiuuuuuuuuu", elementOne.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddres());
+		assertEquals(125, elementOne.getId());
+		assertEquals("Rinaldo", elementOne.getFirstName());
+		assertEquals("Chippindale", elementOne.getLastName());
+		assertEquals("57 Magdeline Plaza", elementOne.getAddres());
 		assertEquals("Male", elementOne.getGender());
 
 		PersonVO elementSix = listVO.get(5);
@@ -264,17 +259,19 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		assertNotNull(elementSix.getAddres());
 		assertNotNull(elementSix.getGender());
 
-		assertEquals(9, elementSix.getId());
-		assertEquals("Nelson", elementSix.getFirstName());
-		assertEquals("Mandela", elementSix.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementSix.getAddres());
-		assertEquals("Male", elementSix.getGender());
+		assertEquals(928, elementSix.getId());
+		assertEquals("Rhea", elementSix.getFirstName());
+		assertEquals("Milham", elementSix.getLastName());
+		assertEquals("420 Fair Oaks Road", elementSix.getAddres());
+		assertEquals("Female", elementSix.getGender());
 	}
 
 	@Test
 	@Order(6)
 	public void testFindAllWithoutToken() throws JsonMappingException, JsonProcessingException {
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_YML)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_YML)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -283,8 +280,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		
 		given()
 			.spec(specificationWithoutToken)
-			.accept(TestsConstants.CONTENT_TYPE_YML)
-			.contentType(TestsConstants.CONTENT_TYPE_YML)
 			.when()
 				.get()
 			.then()
@@ -300,8 +295,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 					.encoderConfig(EncoderConfig.encoderConfig()
 						.encodeContentTypeAs(TestsConstants.CONTENT_TYPE_YML, ContentType.TEXT)))
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.body(ymlMapper.writeValueAsString(voV2))
 				.when()
 					.post()
@@ -343,8 +336,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 					.encoderConfig(EncoderConfig.encoderConfig()
 						.encodeContentTypeAs(TestsConstants.CONTENT_TYPE_YML, ContentType.TEXT)))
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.body(ymlMapper.writeValueAsString(voV2))
 				.when()
 					.put()
@@ -380,8 +371,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.pathParam("id", voV2.getId())
 				.when()
 					.patch("{id}")
@@ -417,8 +406,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
 				.pathParam("id", voV2.getId())
 				.when()
 					.get("{id}")
@@ -453,8 +440,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 	public void testDeleteV2() throws JsonMappingException, JsonProcessingException {
 		given()
 			.spec(specificationV2)
-			.accept(TestsConstants.CONTENT_TYPE_YML)
-			.contentType(TestsConstants.CONTENT_TYPE_YML)
 			.pathParam("id", voV2.getId())
 			.when()
 				.delete("{id}")
@@ -468,8 +453,7 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		var content = 
 			given()
 				.spec(specificationV2)
-				.accept(TestsConstants.CONTENT_TYPE_YML)
-				.contentType(TestsConstants.CONTENT_TYPE_YML)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
 				.when()
 					.get()
 				.then()
@@ -478,7 +462,8 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 		
-		List<PersonVOV2> listVOV2 = ymlMapper.readValue(content, new TypeReference<List<PersonVOV2>>() {});
+		WrapperXmlYamlPersonVOV2 wrapper = ymlMapper.readValue(content, WrapperXmlYamlPersonVOV2.class);
+		var listVOV2 = wrapper.getContent();
 
 		PersonVOV2 elementOne = listVOV2.get(0);
 
@@ -491,13 +476,13 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		assertNotNull(elementOne.getBirthday());
 		assertNotNull(elementOne.getEnabled());
 
-		assertEquals(1, elementOne.getId());
-		assertEquals("XIIIIIUY", elementOne.getFirstName());
-		assertEquals("Caiuuuuuuuuu", elementOne.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementOne.getAddress());
+		assertEquals(125, elementOne.getId());
+		assertEquals("Rinaldo", elementOne.getFirstName());
+		assertEquals("Chippindale", elementOne.getLastName());
+		assertEquals("57 Magdeline Plaza", elementOne.getAddress());
 		assertEquals("Male", elementOne.getGender());
-		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1991, 01, 20)));
-		assertTrue(elementOne.getEnabled());
+		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1989, 12, 31)));
+		assertFalse(elementOne.getEnabled());
 
 		PersonVOV2 elementSix = listVOV2.get(5);
 
@@ -510,19 +495,21 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		assertNotNull(elementSix.getBirthday());
 		assertNotNull(elementSix.getEnabled());
 
-		assertEquals(9, elementSix.getId());
-		assertEquals("Nelson", elementSix.getFirstName());
-		assertEquals("Mandela", elementSix.getLastName());
-		assertEquals("3142314553 fsef4sedf4sfs", elementSix.getAddress());
-		assertEquals("Male", elementSix.getGender());
-		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1999, 01, 20)));
-		assertTrue(elementSix.getEnabled());
+		assertEquals(928, elementSix.getId());
+		assertEquals("Rhea", elementSix.getFirstName());
+		assertEquals("Milham", elementSix.getLastName());
+		assertEquals("420 Fair Oaks Road", elementSix.getAddress());
+		assertEquals("Female", elementSix.getGender());
+		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1999, 01, 04)));
+		assertFalse(elementSix.getEnabled());
 	}
 
 	@Test
 	@Order(13)
 	public void testFindAllV2WithoutToken() throws JsonMappingException, JsonProcessingException {
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
+			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_YML)
+			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_YML)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
 			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
@@ -531,8 +518,6 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 		
 		given()
 			.spec(specificationWithoutToken)
-			.accept(TestsConstants.CONTENT_TYPE_YML)
-			.contentType(TestsConstants.CONTENT_TYPE_YML)
 			.when()
 				.get()
 			.then()

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import org.springframework.hateoas.RepresentationModel;
+import org.springframework.hateoas.server.core.Relation;
 import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -14,6 +15,7 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import jakarta.xml.bind.annotation.XmlRootElement;
 
+@Relation(collectionRelation = "content")
 @XmlRootElement
 //@JsonPropertyOrder({"id", "firstName", "lastName", "gender", "birthday", "addres"})
 public class PersonVOV2 extends RepresentationModel<PersonVOV2> implements Serializable {
