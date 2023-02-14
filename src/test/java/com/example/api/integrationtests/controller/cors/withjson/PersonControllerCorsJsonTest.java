@@ -200,6 +200,18 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 
 	@Test
 	@Order(5)
+	public void testDelete() throws JsonMappingException, JsonProcessingException {
+		given()
+			.spec(specification)
+			.pathParam("id", personVO.getId())
+			.when()
+				.delete("{id}")
+			.then()
+				.statusCode(204);
+	}
+
+	@Test
+	@Order(6)
 	public void testCreateV2() throws JsonMappingException, JsonProcessingException {
 		var content = 
 			given()
@@ -236,7 +248,7 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 	}
 	
 	@Test
-	@Order(6)
+	@Order(7)
 	public void testCreateV2WithWrongOrigin() throws JsonMappingException, JsonProcessingException {
 		var content = 
 			given()
@@ -256,7 +268,7 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 	}
 	
 	@Test
-	@Order(7)
+	@Order(8)
 	public void testFindByIdV2() throws JsonMappingException, JsonProcessingException {
 		var content = 
 			given()
@@ -293,7 +305,7 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 	}
 	
 	@Test
-	@Order(8)
+	@Order(9)
 	public void testFindByIdV2WithWrongOrigin() throws JsonMappingException, JsonProcessingException {
 		var content = 
 			given()
@@ -310,6 +322,18 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 		
 		assertNotNull(content);
 		assertEquals("Invalid CORS request", content);
+	}
+
+	@Test
+	@Order(10)
+	public void testDeleteV2() throws JsonMappingException, JsonProcessingException {
+		given()
+			.spec(specificationV2)
+			.pathParam("id", personVOV2.getId())
+			.when()
+				.delete("{id}")
+			.then()
+				.statusCode(204);
 	}
 
 }

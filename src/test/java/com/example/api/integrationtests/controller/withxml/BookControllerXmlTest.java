@@ -253,4 +253,30 @@ public class BookControllerXmlTest extends AbstractIntegrationTest {
 				.statusCode(403);
 	}
 
+	@Test
+	@Order(7)
+	public void testHateoas() throws JsonMappingException, JsonProcessingException {
+		var content = 
+			given()
+				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
+				.when()
+					.get()
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();
+
+		assertTrue(content.contains("<links><rel>self</rel><href>http://localhost:8888/api/book/v1/278</href></links>"));
+
+		assertTrue(content.contains("<links><rel>first</rel><href>http://localhost:8888/api/book/v1?direction=desc&amp;page=0&amp;size=10&amp;sort=author,desc</href></links>"));
+		assertTrue(content.contains("<links><rel>prev</rel><href>http://localhost:8888/api/book/v1?direction=desc&amp;page=19&amp;size=10&amp;sort=author,desc</href></links>"));
+		assertTrue(content.contains("<links><rel>self</rel><href>http://localhost:8888/api/book/v1?page=20&amp;size=10&amp;direction=desc</href></links>"));
+		assertTrue(content.contains("<links><rel>next</rel><href>http://localhost:8888/api/book/v1?direction=desc&amp;page=21&amp;size=10&amp;sort=author,desc</href></links>"));
+		assertTrue(content.contains("<links><rel>last</rel><href>http://localhost:8888/api/book/v1?direction=desc&amp;page=101&amp;size=10&amp;sort=author,desc</href></links>"));
+
+		assertTrue(content.contains("<page><size>10</size><totalElements>1015</totalElements><totalPages>102</totalPages><number>20</number></page>"));
+	}
+
 }

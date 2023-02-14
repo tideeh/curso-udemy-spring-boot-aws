@@ -271,4 +271,32 @@ public class BookControllerYamlTest extends AbstractIntegrationTest {
 				.statusCode(403);
 	}
 
+	@Test
+	@Order(7)
+	public void testHateoas() throws JsonMappingException, JsonProcessingException {
+		var unthreatedContent =
+			given()
+				.spec(specification)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
+				.when()
+					.get()
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();	
+		
+		var content = unthreatedContent.replace("\r", "").replace("\n", "");
+		
+		assertTrue(content.contains("  links:  - rel: \"self\"    href: \"http://localhost:8888/api/book/v1/278\""));
+
+		assertTrue(content.contains("- rel: \"first\"  href: \"http://localhost:8888/api/book/v1?direction=desc&page=0&size=10&sort=author,desc\""));
+		assertTrue(content.contains("- rel: \"prev\"  href: \"http://localhost:8888/api/book/v1?direction=desc&page=19&size=10&sort=author,desc\""));
+		assertTrue(content.contains("- rel: \"self\"  href: \"http://localhost:8888/api/book/v1?page=20&size=10&direction=desc\""));
+		assertTrue(content.contains("- rel: \"next\"  href: \"http://localhost:8888/api/book/v1?direction=desc&page=21&size=10&sort=author,desc\""));
+		assertTrue(content.contains("- rel: \"last\"  href: \"http://localhost:8888/api/book/v1?direction=desc&page=101&size=10&sort=author,desc\""));
+
+		assertTrue(content.contains("page:  size: 10  totalElements: 1015  totalPages: 102  number: 20"));
+	}
+
 }
