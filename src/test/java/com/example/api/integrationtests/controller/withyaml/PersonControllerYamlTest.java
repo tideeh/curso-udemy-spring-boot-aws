@@ -506,6 +506,64 @@ public class PersonControllerYamlTest extends AbstractIntegrationTest {
 
 	@Test
 	@Order(13)
+	public void testFindByNameV2() throws JsonMappingException, JsonProcessingException {
+		var content = 
+			given()
+				.spec(specificationV2)
+				.pathParam("firstName", "ey")
+				.queryParams("page", 0, "size", 6, "direction", "asc")
+				.when()
+					.get("search/{firstName}")
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();
+
+		WrapperXmlYamlPersonVOV2 wrapper = ymlMapper.readValue(content, WrapperXmlYamlPersonVOV2.class);
+		var listVOV2 = wrapper.getContent();
+
+		PersonVOV2 elementOne = listVOV2.get(0);
+
+		assertNotNull(elementOne);
+		assertNotNull(elementOne.getId());
+		assertNotNull(elementOne.getFirstName());
+		assertNotNull(elementOne.getLastName());
+		assertNotNull(elementOne.getAddress());
+		assertNotNull(elementOne.getGender());
+		assertNotNull(elementOne.getBirthday());
+		assertNotNull(elementOne.getEnabled());
+
+		assertEquals(283, elementOne.getId());
+		assertEquals("Ailey", elementOne.getFirstName());
+		assertEquals("Higgoe", elementOne.getLastName());
+		assertEquals("089 Dennis Place", elementOne.getAddress());
+		assertEquals("Female", elementOne.getGender());
+		assertTrue(elementOne.getBirthday().isEqual(LocalDate.of(1951, 04, 27)));
+		assertFalse(elementOne.getEnabled());
+
+		PersonVOV2 elementSix = listVOV2.get(5);
+
+		assertNotNull(elementSix);
+		assertNotNull(elementSix.getId());
+		assertNotNull(elementSix.getFirstName());
+		assertNotNull(elementSix.getLastName());
+		assertNotNull(elementSix.getAddress());
+		assertNotNull(elementSix.getGender());
+		assertNotNull(elementSix.getBirthday());
+		assertNotNull(elementSix.getEnabled());
+
+		assertEquals(920, elementSix.getId());
+		assertEquals("Davey", elementSix.getFirstName());
+		assertEquals("Rucklidge", elementSix.getLastName());
+		assertEquals("972 Kingsford Crossing", elementSix.getAddress());
+		assertEquals("Male", elementSix.getGender());
+		assertTrue(elementSix.getBirthday().isEqual(LocalDate.of(1964, 10, 13)));
+		assertTrue(elementSix.getEnabled());
+	}
+
+	@Test
+	@Order(14)
 	public void testFindAllV2WithoutToken() throws JsonMappingException, JsonProcessingException {
 		RequestSpecification specificationWithoutToken = new RequestSpecBuilder()
 			.addHeader(TestsConstants.HEADER_PARAM_ACCEPT, TestsConstants.CONTENT_TYPE_YML)

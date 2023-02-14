@@ -12,16 +12,16 @@ public class EmbeddedPersonVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("content")
-    private List<PersonVO> voList;
+    private List<PersonVO> content;
 
     public EmbeddedPersonVO() {}
 
-    public List<PersonVO> getVoList() {
-        return this.voList;
+    public List<PersonVO> getContent() {
+        return this.content;
     }
 
-    public void setVoList(List<PersonVO> voList) {
-        this.voList = voList;
+    public void setContent(List<PersonVO> voList) {
+        this.content = voList;
     }
 
     @Override
@@ -32,12 +32,12 @@ public class EmbeddedPersonVO implements Serializable {
             return false;
         }
         EmbeddedPersonVO personEmbeddedVO = (EmbeddedPersonVO) o;
-        return Objects.equals(voList, personEmbeddedVO.voList);
+        return Objects.equals(content, personEmbeddedVO.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(voList);
+        return Objects.hashCode(content);
     }
 
 }

@@ -12,16 +12,16 @@ public class EmbeddedBookVO implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @JsonProperty("content")
-    private List<BookVO> voList;
+    private List<BookVO> content;
 
     public EmbeddedBookVO() {}
 
-    public List<BookVO> getVoList() {
-        return this.voList;
+    public List<BookVO> getContent() {
+        return this.content;
     }
 
-    public void setVoList(List<BookVO> voList) {
-        this.voList = voList;
+    public void setContent(List<BookVO> voList) {
+        this.content = voList;
     }
 
     @Override
@@ -32,12 +32,12 @@ public class EmbeddedBookVO implements Serializable {
             return false;
         }
         EmbeddedBookVO bookVOEmbedded = (EmbeddedBookVO) o;
-        return Objects.equals(voList, bookVOEmbedded.voList);
+        return Objects.equals(content, bookVOEmbedded.content);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(voList);
+        return Objects.hashCode(content);
     }
 
 }

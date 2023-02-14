@@ -202,7 +202,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 						.asString();
 
 		WrapperJsonBookVO wrapper = objectMapper.readValue(content, WrapperJsonBookVO.class);
-		var listVO = wrapper.getEmbedded().getVoList();
+		var listVO = wrapper.getEmbedded().getContent();
 
 		BookVO foundBookOne = listVO.get(0);
 

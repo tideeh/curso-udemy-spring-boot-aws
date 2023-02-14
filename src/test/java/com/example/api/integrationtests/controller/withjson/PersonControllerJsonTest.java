@@ -216,7 +216,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 						.asString();
 
 		WrapperJsonPersonVO wrapper = objectMapper.readValue(content, WrapperJsonPersonVO.class);
-		var listVO = wrapper.getEmbedded().getVoList();
+		var listVO = wrapper.getEmbedded().getContent();
 
 		PersonVO elementOne = listVO.get(0);
 
@@ -440,7 +440,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 						.asString();
 
 		WrapperJsonPersonVOV2 wrapper = objectMapper.readValue(content, WrapperJsonPersonVOV2.class);
-		var listVOV2 = wrapper.getEmbedded().getVoV2List();
+		var listVOV2 = wrapper.getEmbedded().getContent();
 
 		PersonVOV2 elementOne = listVOV2.get(0);
 
@@ -498,7 +498,7 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 						.asString();
 
 		WrapperJsonPersonVOV2 wrapper = objectMapper.readValue(content, WrapperJsonPersonVOV2.class);
-		var listVOV2 = wrapper.getEmbedded().getVoV2List();
+		var listVOV2 = wrapper.getEmbedded().getContent();
 
 		PersonVOV2 elementOne = listVOV2.get(0);
 
