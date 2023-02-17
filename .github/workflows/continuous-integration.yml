@@ -30,11 +30,9 @@ jobs:
         cache: maven
         
     - name: Build Application JAR
-      working-directory: ./curso-udemy-spring-boot-aws
       run: mvn clean install
 
     - name: Build Docker Compose
-      working-directory: ./curso-udemy-spring-boot-aws
       run: docker-compose build
       
     - name: Push to Docker Hub
