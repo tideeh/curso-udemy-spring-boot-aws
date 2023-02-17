@@ -128,7 +128,7 @@ public class FileStorageController {
             @PathVariable String filename,
             HttpServletRequest request) {
 
-        logger.info("Reading a file on disk");
+        logger.info("Downloading a file from disk");
 
         Resource resource = service.loadFileAsResource(filename);
         String contentType = "";
