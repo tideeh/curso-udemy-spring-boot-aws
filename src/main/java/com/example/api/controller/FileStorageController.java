@@ -43,7 +43,6 @@ public class FileStorageController {
     @Operation(
         summary = "Upload a file to server", 
         description = "Upload a file to server - v1", 
-        tags = {"File"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 
@@ -74,7 +73,6 @@ public class FileStorageController {
     @Operation(
         summary = "Upload multiple files to server", 
         description = "Upload multiple files to server - v1", 
-        tags = {"File"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 
@@ -108,7 +106,6 @@ public class FileStorageController {
     @Operation(
         summary = "Download a file from server", 
         description = "Download a file from server - v1", 
-        tags = {"File"}, 
         responses = {
             @ApiResponse(
                 description = "Success", 

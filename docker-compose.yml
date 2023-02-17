@@ -20,9 +20,9 @@ services:
     expose:
       - 3308
     networks:
-      - curso-udemy-spring-boot-aws-network
+      - network
 
-  curso-udemy-spring-boot-aws:
+  api:
     image: tideeh/curso-udemy-spring-boot-aws
     container_name: curso-spring-aws-api
     restart: always
@@ -39,9 +39,9 @@ services:
     depends_on:
       - db
     networks:
-      - curso-udemy-spring-boot-aws-network
+      - network
 
 networks:
-  curso-udemy-spring-boot-aws-network:
+  network:
     name: curso-spring-aws-network
     driver: bridge
