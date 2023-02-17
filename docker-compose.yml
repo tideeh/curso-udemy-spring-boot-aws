@@ -25,6 +25,7 @@ services:
   api:
     image: tideeh/curso-udemy-spring-boot-aws
     container_name: curso-spring-aws-api
+    pull_policy: always
     restart: always
     build: ./
     environment:
