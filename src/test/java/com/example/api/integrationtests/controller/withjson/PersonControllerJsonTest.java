@@ -585,4 +585,30 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 		assertTrue(content.contains("\"page\":{\"size\":10,\"totalElements\":1007,\"totalPages\":101,\"number\":20}"));
 	}
 
+	@Test
+	@Order(16)
+	public void testHateoasV2() throws JsonMappingException, JsonProcessingException {
+		var content = 
+			given()
+				.spec(specificationV2)
+				.queryParams("page", 20, "size", 10, "direction", "desc")
+				.when()
+					.get()
+				.then()
+					.statusCode(200)
+				.extract()
+					.body()
+						.asString();
+
+		assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8888/api/person/v2/125\"}}"));
+
+		assertTrue(content.contains("\"first\":{\"href\":\"http://localhost:8888/api/person/v2?direction=desc&page=0&size=10&sort=firstName,desc\"}"));
+		assertTrue(content.contains("\"prev\":{\"href\":\"http://localhost:8888/api/person/v2?direction=desc&page=19&size=10&sort=firstName,desc\"}"));
+		assertTrue(content.contains("\"self\":{\"href\":\"http://localhost:8888/api/person/v2?page=20&size=10&direction=desc\"}"));
+		assertTrue(content.contains("\"next\":{\"href\":\"http://localhost:8888/api/person/v2?direction=desc&page=21&size=10&sort=firstName,desc\"}"));
+		assertTrue(content.contains("\"last\":{\"href\":\"http://localhost:8888/api/person/v2?direction=desc&page=100&size=10&sort=firstName,desc\"}"));
+
+		assertTrue(content.contains("\"page\":{\"size\":10,\"totalElements\":1007,\"totalPages\":101,\"number\":20}"));
+	}
+
 }

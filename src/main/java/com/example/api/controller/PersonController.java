@@ -76,7 +76,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -117,7 +117,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -161,7 +161,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -203,7 +203,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -242,7 +242,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -291,7 +291,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -331,7 +331,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -380,7 +380,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -424,7 +424,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -465,7 +465,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -504,7 +504,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),
@@ -550,7 +550,7 @@ public class PersonController {
                 content = @Content
             ),
             @ApiResponse(
-                description = "Internal Errorr", 
+                description = "Internal Error", 
                 responseCode = "500", 
                 content = @Content
             ),

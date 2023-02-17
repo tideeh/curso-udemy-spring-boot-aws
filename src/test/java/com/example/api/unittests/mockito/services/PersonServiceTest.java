@@ -253,62 +253,6 @@ class PersonServiceTest {
 		
 		assertTrue(actualMessage.contains(expectedMessage));
 	}
-	
-	// TODO
-	/*
-	@Test
-	void testFindAllV2() throws Exception {
-		List<Person> list = input.mockEntityListV2(); 
-		
-		when(repository.findAll()).thenReturn(list);
-		
-		var people = service.findAllV2();
-		assertNotNull(people);
-		assertEquals(14, people.size());
-		
-		var personOne = people.get(1);
-
-		assertNotNull(personOne);
-		assertNotNull(personOne.getId());
-		assertNotNull(personOne.getLinks());
-
-		assertTrue(personOne.toString().contains("links: [</api/person/v2/1>;rel=\"self\"]"));
-		assertEquals("Address Test1", personOne.getAddress());
-		assertEquals("First Name Test1", personOne.getFirstName());
-		assertEquals("Last Name Test1", personOne.getLastName());
-		assertEquals("Female", personOne.getGender());
-		assertTrue(personOne.getBirthday().isEqual(LocalDate.of(2001, 01, 25)));
-		assertFalse(personOne.getEnabled());
-		
-		var personFour = people.get(4);
-
-		assertNotNull(personFour);
-		assertNotNull(personFour.getId());
-		assertNotNull(personFour.getLinks());
-
-		assertTrue(personFour.toString().contains("links: [</api/person/v2/4>;rel=\"self\"]"));
-		assertEquals("Address Test4", personFour.getAddress());
-		assertEquals("First Name Test4", personFour.getFirstName());
-		assertEquals("Last Name Test4", personFour.getLastName());
-		assertEquals("Male", personFour.getGender());
-		assertTrue(personFour.getBirthday().isEqual(LocalDate.of(2004, 01, 25)));
-		assertTrue(personFour.getEnabled());
-		
-		var personSeven = people.get(7);
-
-		assertNotNull(personSeven);
-		assertNotNull(personSeven.getId());
-		assertNotNull(personSeven.getLinks());
-
-		assertTrue(personSeven.toString().contains("links: [</api/person/v2/7>;rel=\"self\"]"));
-		assertEquals("Address Test7", personSeven.getAddress());
-		assertEquals("First Name Test7", personSeven.getFirstName());
-		assertEquals("Last Name Test7", personSeven.getLastName());
-		assertEquals("Female", personSeven.getGender());
-		assertTrue(personSeven.getBirthday().isEqual(LocalDate.of(2007, 01, 25)));
-		assertFalse(personSeven.getEnabled());
-	}
-	*/
 
 	@Test
 	void testDisableV2() throws Exception {
