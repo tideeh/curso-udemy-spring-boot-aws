@@ -222,6 +222,7 @@ public class PersonService {
         entity.setAddress(personVOV2.getAddress());
         entity.setGender(personVOV2.getGender());
         entity.setBirthday(personVOV2.getBirthday());
+        entity.setEnabled(personVOV2.getEnabled());
 
         var vo = PersonMapper.INSTANCE.personToVOV2(repository.save(entity));
 
