@@ -1,4 +1,4 @@
-name: Continuous Integration with Github Actions
+name: CI and CD with AWS ECR/ECS
 
 on:
   push:
