@@ -18,4 +18,6 @@ public class TestsConstants {
 
     public final static String ORIGIN_GOOGLE = "http://google.com";
     public final static String ORIGIN_APPLE = "http://apple.com";
+
+    public static final boolean SHOW_LOG_DETAIL = false;
 }
