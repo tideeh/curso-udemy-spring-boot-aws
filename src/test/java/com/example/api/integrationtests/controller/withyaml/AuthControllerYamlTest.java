@@ -34,6 +34,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 @TestMethodOrder(OrderAnnotation.class)
 public class AuthControllerYamlTest extends AbstractIntegrationTest {
 
+	private static RequestSpecification specification;
 	private static ObjectMapper ymlMapper;
     private static TokenVO tokenVO;
 
@@ -50,10 +51,12 @@ public class AuthControllerYamlTest extends AbstractIntegrationTest {
 	public void testSignin() throws JsonMappingException, JsonProcessingException {
 		AccountCredentialsVO accountCredentials = new AccountCredentialsVO(TestsConstants.USERNAME_TEST, TestsConstants.PASSWORD_TEST);
 
-		RequestSpecification specification = new RequestSpecBuilder()
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
-			.build();
+		specification = new RequestSpecBuilder().build();
+
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specification.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specification.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 
 		var content = 
 			given().spec(specification)
@@ -83,7 +86,7 @@ public class AuthControllerYamlTest extends AbstractIntegrationTest {
 	@Order(2)
 	public void testRefreshToken() throws JsonMappingException, JsonProcessingException {
 		var content = 
-			given()
+			given().spec(specification)
 				.config(RestAssuredConfig.config()
 					.encoderConfig(EncoderConfig.encoderConfig()
 						.encodeContentTypeAs(TestsConstants.CONTENT_TYPE_YML, ContentType.TEXT)))

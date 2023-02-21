@@ -77,8 +77,6 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
 		
 		specificationV2 = new RequestSpecBuilder()
@@ -87,9 +85,14 @@ public class PersonControllerCorsJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+		
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specification.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specification.filters(new ResponseLoggingFilter(LogDetail.ALL));
+			specificationV2.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationV2.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 	}
 
 	@Test

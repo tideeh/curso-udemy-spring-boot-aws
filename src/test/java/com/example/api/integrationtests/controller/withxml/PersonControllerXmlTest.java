@@ -75,8 +75,6 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_XML)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
 
 		specificationV2 = new RequestSpecBuilder()
@@ -85,9 +83,14 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_XML)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specification.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specification.filters(new ResponseLoggingFilter(LogDetail.ALL));
+			specificationV2.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationV2.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 	}
 
 	@Test
@@ -255,9 +258,12 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_XML)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+		
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specificationWithoutToken.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationWithoutToken.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 		
 		given()
 			.spec(specificationWithoutToken)
@@ -545,9 +551,12 @@ public class PersonControllerXmlTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_XML)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specificationWithoutToken.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationWithoutToken.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 		
 		given()
 			.spec(specificationWithoutToken)

@@ -73,9 +73,12 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/book/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specification.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specification.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 	}
 
 	@Test
@@ -243,10 +246,13 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/book/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
 		
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specificationWithoutToken.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationWithoutToken.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
+
 		given()
 			.spec(specificationWithoutToken)
 			.when()

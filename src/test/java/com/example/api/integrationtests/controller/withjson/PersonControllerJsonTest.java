@@ -77,8 +77,6 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
 
 		specificationV2 = new RequestSpecBuilder()
@@ -87,9 +85,14 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specification.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specification.filters(new ResponseLoggingFilter(LogDetail.ALL));
+			specificationV2.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationV2.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 	}
 
 	@Test
@@ -257,9 +260,12 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/person/v1")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+		
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specificationWithoutToken.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationWithoutToken.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 		
 		given()
 			.spec(specificationWithoutToken)
@@ -547,9 +553,12 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 			.addHeader(TestsConstants.HEADER_PARAM_CONTENT_TYPE, TestsConstants.CONTENT_TYPE_JSON)
 			.setBasePath("/api/person/v2")
 			.setPort(TestsConstants.SERVER_PORT)
-			.addFilter(new RequestLoggingFilter(LogDetail.ALL))
-			.addFilter(new ResponseLoggingFilter(LogDetail.ALL))
 			.build();
+		
+		if(TestsConstants.SHOW_LOG_DETAIL) {
+			specificationWithoutToken.filters(new RequestLoggingFilter(LogDetail.ALL));
+			specificationWithoutToken.filters(new ResponseLoggingFilter(LogDetail.ALL));
+		}
 		
 		given()
 			.spec(specificationWithoutToken)
@@ -574,6 +583,8 @@ public class PersonControllerJsonTest extends AbstractIntegrationTest {
 					.body()
 						.asString();
 
+		System.out.println(content);
+		
 		assertTrue(content.contains("\"_links\":{\"self\":{\"href\":\"http://localhost:8888/api/person/v1/125\"}}"));
 
 		assertTrue(content.contains("\"first\":{\"href\":\"http://localhost:8888/api/person/v1?direction=desc&page=0&size=10&sort=firstName,desc\"}"));
