@@ -168,7 +168,7 @@ public class BookControllerJsonTest extends AbstractIntegrationTest {
 		assertNotNull(persistedBookVO.getLaunchDate());
 
 		assertEquals(bookVO.getId(), persistedBookVO.getId());
-		assertEquals("O Codigo Da Vinci (Robert Langdon - Livro 2)", persistedBookVO.getTitle());
+		assertEquals("O Codigo Da Vinci (Robert Langdon - Livro 22)", persistedBookVO.getTitle());
 		assertEquals("Dan Brown", persistedBookVO.getAuthor());
 		assertEquals(35.46, persistedBookVO.getPrice());
 		assertTrue(persistedBookVO.getLaunchDate().isEqual(LocalDate.of(2021, 04, 15)));
