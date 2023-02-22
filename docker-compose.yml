@@ -31,9 +31,9 @@ services:
       TZ: America/Sao_Paulo
       # Comente as 3 linhas abaixo para utilizar o banco configurado no application.properties
       # Descommente as 3 linhas abaixo para utilizar o banco acima: do Docker
-      # SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/curso_udemy_spring_boot_aws?useTimezone=true&serverTimezone=UTC
-      # SPRING.DATASOURCE.USERNAME: root
-      # SPRING.DATASOURCE.PASSWORD: admin123
+      SPRING.DATASOURCE.URL: jdbc:mysql://db:3308/curso_udemy_spring_boot_aws?useTimezone=true&serverTimezone=UTC
+      SPRING.DATASOURCE.USERNAME: root
+      SPRING.DATASOURCE.PASSWORD: admin123
     ports:
       - 80:80
     command: mvn spring-boot:run
